@@ -56,7 +56,7 @@ public class TracksListFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        viewModel= ViewModelProviders.of(this,viewModelFactory).get(SharedListViewModel.class);
+        viewModel= ViewModelProviders.of(getParentFragment(),viewModelFactory).get(SharedListViewModel.class);
     }
 
     @Override

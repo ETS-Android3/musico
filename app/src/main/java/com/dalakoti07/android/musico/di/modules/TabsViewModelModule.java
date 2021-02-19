@@ -12,14 +12,9 @@ import dagger.Module;
 import dagger.multibindings.IntoMap;
 
 @Module
-public abstract class MainViewModelModule {
+public abstract class TabsViewModelModule {
 
     @Binds
-    @IntoMap
-    @ViewModelKey(HomeScreenViewModel.class)
-    public abstract ViewModel bindHomeScreenViewModel(HomeScreenViewModel viewModel);
-
-    /*@Binds
     @IntoMap
     @ViewModelKey(GenreDetailsViewModel.class)
     public abstract ViewModel bindGenreDetailsViewModel(GenreDetailsViewModel viewModel);
@@ -27,6 +22,6 @@ public abstract class MainViewModelModule {
     @Binds
     @IntoMap
     @ViewModelKey(SharedListViewModel.class)
-    public abstract ViewModel bindSharedListViewModel(SharedListViewModel viewModel);*/
+    public abstract ViewModel bindSharedListViewModel(SharedListViewModel viewModel);
 
 }

@@ -66,8 +66,11 @@ public class GenreDetailFragment extends Fragment {
         this.context=context;
         super.onAttach(context);
         if(getActivity()!=null){
-            ((MainActivity)getActivity()).mainComponent.inject(this);
-             fragmentComponent= MusicApplication.get(getActivity()).getApplicationComponent().fragmentComponent().create();
+//            ((MainActivity)getActivity()).mainComponent.inject(this);
+             fragmentComponent= MusicApplication.get(getActivity()).getApplicationComponent().fragmentComponent()
+                     .create();
+             fragmentComponent.inject(this);
+             //MusicApplication.get(getActivity()).getApplicationComponent()
         }
     }
 

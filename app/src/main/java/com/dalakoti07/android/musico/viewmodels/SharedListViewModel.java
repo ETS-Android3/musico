@@ -22,7 +22,6 @@ import timber.log.Timber;
 /**
  * This viewModel is shared by AlbumListFragment,ArtistListFragment,TracksListFragment
  */
-@FragmentScope
 public class SharedListViewModel extends ViewModel {
     private MutableLiveData<List<AlbumModel>> albumArrayList;
     private MutableLiveData<String> errorMessage= new MutableLiveData<>();

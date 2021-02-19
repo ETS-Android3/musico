@@ -100,7 +100,6 @@ public class MainFragment extends Fragment implements GenreAdapter.genreCardClic
 
     @Override
     public void cardClicked(SongGenre model) {
-        Toast.makeText(context, "clicked", Toast.LENGTH_SHORT).show();
         Bundle bundle= new Bundle();
         bundle.putString(Constants.genreName,model.getName());
         navController.navigate(R.id.action_mainFragment_to_genreDetailFragment,bundle);

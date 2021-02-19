@@ -64,7 +64,7 @@ public class AlbumListFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        viewModel= ViewModelProviders.of(this,viewModelFactory).get(SharedListViewModel.class);
+        viewModel= ViewModelProviders.of(getParentFragment(),viewModelFactory).get(SharedListViewModel.class);
         adapter=new CommonListAdapter();
         binding.rvListItems.setAdapter(adapter);
         viewModel.getAlbumsList(GenreDetailFragment.currentGenre).observe(getViewLifecycleOwner(), new Observer<List<AlbumModel>>() {
