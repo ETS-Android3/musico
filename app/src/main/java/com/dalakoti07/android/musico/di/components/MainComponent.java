@@ -6,6 +6,7 @@ import com.dalakoti07.android.musico.di.modules.MainViewModelModule;
 import com.dalakoti07.android.musico.di.qualifier.ActivityContext;
 import com.dalakoti07.android.musico.di.scopes.ActivityScope;
 import com.dalakoti07.android.musico.ui.activity.MainActivity;
+import com.dalakoti07.android.musico.ui.fragment.AlbumListFragment;
 import com.dalakoti07.android.musico.ui.fragment.GenreDetailFragment;
 import com.dalakoti07.android.musico.ui.fragment.MainFragment;
 
@@ -24,4 +25,6 @@ public interface MainComponent {
     void inject(MainActivity activity);
     void inject(MainFragment fragment);
     void inject(GenreDetailFragment fragment);
+
+    void inject(AlbumListFragment fragment);
 }

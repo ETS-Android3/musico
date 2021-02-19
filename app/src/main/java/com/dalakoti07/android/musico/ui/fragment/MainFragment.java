@@ -22,6 +22,7 @@ import com.dalakoti07.android.musico.databinding.FragmentMainBinding;
 import com.dalakoti07.android.musico.di.qualifier.ActivityContext;
 import com.dalakoti07.android.musico.ui.activity.MainActivity;
 import com.dalakoti07.android.musico.ui.adapters.GenreAdapter;
+import com.dalakoti07.android.musico.utils.Constants;
 import com.dalakoti07.android.musico.viewmodels.HomeScreenViewModel;
 import com.dalakoti07.android.musico.viewmodels.ViewModelProviderFactory;
 
@@ -29,6 +30,7 @@ import java.util.ArrayList;
 
 import javax.inject.Inject;
 
+import es.dmoral.toasty.Toasty;
 import timber.log.Timber;
 
 
@@ -76,8 +78,16 @@ public class MainFragment extends Fragment implements GenreAdapter.genreCardClic
         viewModel.getAllSongGenres().observe(getViewLifecycleOwner(), new Observer<ArrayList<SongGenre>>() {
             @Override
             public void onChanged(ArrayList<SongGenre> songGenres) {
+                mainBinding.progressBar.setVisibility(View.GONE);
                 genreAdapter.addAllData(songGenres);
                 genreAdapter.notifyDataSetChanged();
+            }
+        });
+        viewModel.getErrorMessage().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                mainBinding.progressBar.setVisibility(View.GONE);
+                Toasty.error(context,s).show();
             }
         });
     }
@@ -91,6 +101,8 @@ public class MainFragment extends Fragment implements GenreAdapter.genreCardClic
     @Override
     public void cardClicked(SongGenre model) {
         Toast.makeText(context, "clicked", Toast.LENGTH_SHORT).show();
-        navController.navigate(R.id.action_mainFragment_to_genreDetailFragment);
+        Bundle bundle= new Bundle();
+        bundle.putString(Constants.genreName,model.getName());
+        navController.navigate(R.id.action_mainFragment_to_genreDetailFragment,bundle);
     }
 }

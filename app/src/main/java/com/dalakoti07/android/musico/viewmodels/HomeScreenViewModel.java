@@ -39,9 +39,13 @@ public class HomeScreenViewModel extends ViewModel {
         }
     }
 
+    public LiveData<String> getErrorMessage(){
+        return errorMessage;
+    }
+
     private LiveData<ArrayList<SongGenre>> fetchAllGenres() {
         allSongGenres= new MutableLiveData<>();
-        apiInterface.getAllGenres("tag.getTopTags",MusicApiClient.APIKEY_VALUE,MusicApiClient.FORMAT_VALUE)
+        apiInterface.getAllGenres("tag.getTopTags")
                 .enqueue(new Callback<AllGenreResponse>() {
                     @Override
                     public void onResponse(Call<AllGenreResponse> call, Response<AllGenreResponse> response) {

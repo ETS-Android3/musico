@@ -2,7 +2,9 @@ package com.dalakoti07.android.musico.di.modules;
 
 import androidx.lifecycle.ViewModel;
 
+import com.dalakoti07.android.musico.viewmodels.GenreDetailsViewModel;
 import com.dalakoti07.android.musico.viewmodels.HomeScreenViewModel;
+import com.dalakoti07.android.musico.viewmodels.SharedListViewModel;
 import com.dalakoti07.android.musico.viewmodels.ViewModelKey;
 
 import dagger.Binds;
@@ -15,5 +17,15 @@ public abstract class MainViewModelModule {
     @Binds
     @IntoMap
     @ViewModelKey(HomeScreenViewModel.class)
-    public abstract ViewModel bindLoginViewModel(HomeScreenViewModel viewModel);
+    public abstract ViewModel bindHomeScreenViewModel(HomeScreenViewModel viewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(GenreDetailsViewModel.class)
+    public abstract ViewModel bindGenreDetailsViewModel(GenreDetailsViewModel viewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(SharedListViewModel.class)
+    public abstract ViewModel bindSharedListViewModel(SharedListViewModel viewModel);
 }

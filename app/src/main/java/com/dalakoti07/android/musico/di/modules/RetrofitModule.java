@@ -24,6 +24,10 @@ import timber.log.Timber;
 
 @Module
 public class RetrofitModule {
+    private final String APIKEY = "api_key";
+    private final String APIKEY_VALUE = "7c5701c72b926f5d1e5b209aadd3aedc";
+    private final String FORMAT = "format";
+    private final String FORMAT_VALUE = "json";
 
     @Provides
     @Singleton
@@ -44,21 +48,16 @@ public class RetrofitModule {
 
     @Provides
     @Singleton
-    OkHttpClient getOkHttpCleint(HttpLoggingInterceptor httpLoggingInterceptor) {
+    OkHttpClient getOkHttpClient(HttpLoggingInterceptor httpLoggingInterceptor) {
         return new OkHttpClient.Builder()
                 .addInterceptor(httpLoggingInterceptor)
                 .addInterceptor(new Interceptor() {
                     @Override
                     public @NotNull Response intercept(@NotNull Chain chain) throws IOException {
                         Request.Builder originalRequest = chain.request().newBuilder();
-                        // Request customization: add request headers
-/*                        Request.Builder requestBuilder = original.newBuilder()
-                                .header("Authorization", manager.getUserAccessToken());
-                        Request request = requestBuilder.build();
-                        return chain.proceed(request);*/
                         HttpUrl originalHttpUrl=chain.request().url();
-                        HttpUrl newHttpUrl= originalHttpUrl.newBuilder().addQueryParameter("api_key","7c5701c72b926f5d1e5b209aadd3aedc")
-                                .addQueryParameter("format","json")
+                        HttpUrl newHttpUrl= originalHttpUrl.newBuilder().addQueryParameter(APIKEY,APIKEY_VALUE)
+                                .addQueryParameter(FORMAT,FORMAT_VALUE)
                                 .build();
                         originalRequest.url(newHttpUrl);
                         return chain.proceed(originalRequest.build());

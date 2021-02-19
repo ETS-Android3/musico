@@ -3,6 +3,9 @@ package com.dalakoti07.android.musico.data.models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+/*
+    This model used in home screen to show all genres
+ */
 public class SongGenre {
     @SerializedName("name")
     @Expose
