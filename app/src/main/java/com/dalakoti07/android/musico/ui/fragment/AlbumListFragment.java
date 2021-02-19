@@ -11,8 +11,12 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 
+import com.dalakoti07.android.musico.R;
 import com.dalakoti07.android.musico.data.models.AlbumModel;
+import com.dalakoti07.android.musico.data.models.UIData;
 import com.dalakoti07.android.musico.databinding.FragmentAlbumListBinding;
 import com.dalakoti07.android.musico.di.qualifier.ActivityContext;
 import com.dalakoti07.android.musico.ui.activity.MainActivity;
@@ -27,10 +31,10 @@ import javax.inject.Inject;
 
 import timber.log.Timber;
 
-public class AlbumListFragment extends Fragment {
+public class AlbumListFragment extends Fragment implements CommonListAdapter.CardClickListener{
     private FragmentAlbumListBinding binding;
     private CommonListAdapter adapter;
-
+    private NavController navController;
 
     Context context;
 
@@ -65,13 +69,22 @@ public class AlbumListFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         viewModel= ViewModelProviders.of(getParentFragment(),viewModelFactory).get(SharedListViewModel.class);
-        adapter=new CommonListAdapter();
+        navController= NavHostFragment.findNavController(this);
+        adapter=new CommonListAdapter(CommonListAdapter.ViewType.Albums,this);
         binding.rvListItems.setAdapter(adapter);
         viewModel.getAlbumsList(GenreDetailFragment.currentGenre).observe(getViewLifecycleOwner(), new Observer<List<AlbumModel>>() {
             @Override
             public void onChanged(List<AlbumModel> albumModels) {
-                adapter.addData((ArrayList<AlbumModel>) albumModels);
+                adapter.addAlbumData((ArrayList<AlbumModel>) albumModels);
                 binding.progressBar.setVisibility(View.GONE);
+            }
+        });
+        viewModel.getAlbumsError().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                binding.progressBar.setVisibility(View.GONE);
+                binding.errorMsg.setText(s);
+                binding.errorLayout.setVisibility(View.VISIBLE);
             }
         });
     }
@@ -80,5 +93,10 @@ public class AlbumListFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding=null;
+    }
+
+    @Override
+    public void cardClicked(UIData uiElementClicked) {
+        navController.navigate(R.id.action_genreDetailFragment_to_albumDetailsFragment);
     }
 }

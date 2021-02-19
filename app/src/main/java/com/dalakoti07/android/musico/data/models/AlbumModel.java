@@ -8,7 +8,7 @@ import org.w3c.dom.Attr;
 
 import java.util.List;
 
-public class AlbumModel {
+public class AlbumModel implements UIData{
 
     @SerializedName("name")
     @Expose

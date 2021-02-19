@@ -1,6 +1,8 @@
 package com.dalakoti07.android.musico.networks;
 
+import com.dalakoti07.android.musico.networks.response.AllArtistsResponse;
 import com.dalakoti07.android.musico.networks.response.AllGenreResponse;
+import com.dalakoti07.android.musico.networks.response.AllTracksResponse;
 import com.dalakoti07.android.musico.networks.response.GenreAlbumsResponse;
 import com.dalakoti07.android.musico.networks.response.GenreDetailsResponse;
 
@@ -26,5 +28,11 @@ public interface MusicApiClient {
     @GET("2.0")
     Call<GenreAlbumsResponse> getTopAlbumsInGenre(@Query(METHOD) String method,@Query("tag")String genre);
 
-    
+    @GET("2.0")
+    Call<AllArtistsResponse> getTopArtistInGenre(@Query(METHOD) String method, @Query("tag")String genre);
+
+    @GET("2.0")
+    Call<AllTracksResponse> getTopTracksInGenre(@Query(METHOD) String method, @Query("tag")String genre);
+
+
 }

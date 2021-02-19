@@ -11,6 +11,10 @@
         android:label="fragment_main"
         tools:layout="@layout/fragment_main" >
         <action
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
             android:id="@+id/action_mainFragment_to_genreDetailFragment"
             app:destination="@id/genreDetailFragment" />
     </fragment>
@@ -20,7 +24,28 @@
         android:label="fragment_genre_detail"
         tools:layout="@layout/fragment_genre_detail" >
         <action
-            android:id="@+id/action_genreDetailFragment_to_mainFragment"
-            app:destination="@id/mainFragment" />
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            android:id="@+id/action_genreDetailFragment_to_albumDetailsFragment"
+            app:destination="@id/albumDetailsFragment" />
+        <action
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            android:id="@+id/action_genreDetailFragment_to_artistDetailFragment"
+            app:destination="@id/artistDetailFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/albumDetailsFragment"
+        android:name="com.dalakoti07.android.musico.ui.fragment.AlbumDetailsFragment"
+        android:label="fragment_album_details"
+        tools:layout="@layout/fragment_album_details" />
+    <fragment
+        android:id="@+id/artistDetailFragment"
+        android:name="com.dalakoti07.android.musico.ui.fragment.ArtistDetailFragment"
+        android:label="fragment_artist_detail"
+        tools:layout="@layout/fragment_artist_detail" />
 </navigation>

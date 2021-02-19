@@ -19,14 +19,4 @@ public abstract class MainViewModelModule {
     @ViewModelKey(HomeScreenViewModel.class)
     public abstract ViewModel bindHomeScreenViewModel(HomeScreenViewModel viewModel);
 
-    /*@Binds
-    @IntoMap
-    @ViewModelKey(GenreDetailsViewModel.class)
-    public abstract ViewModel bindGenreDetailsViewModel(GenreDetailsViewModel viewModel);
-
-    @Binds
-    @IntoMap
-    @ViewModelKey(SharedListViewModel.class)
-    public abstract ViewModel bindSharedListViewModel(SharedListViewModel viewModel);*/
-
 }
