@@ -28,6 +28,7 @@ public class AlbumDetailsViewModel extends ViewModel {
         Timber.d("created album details viewModel");
     }
 
+    //todo error handling
     public LiveData<String> getApiError() {
         return apiError;
     }

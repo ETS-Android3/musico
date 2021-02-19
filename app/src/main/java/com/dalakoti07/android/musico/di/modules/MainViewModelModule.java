@@ -3,6 +3,7 @@ package com.dalakoti07.android.musico.di.modules;
 import androidx.lifecycle.ViewModel;
 
 import com.dalakoti07.android.musico.viewmodels.AlbumDetailsViewModel;
+import com.dalakoti07.android.musico.viewmodels.ArtistDetailsViewModel;
 import com.dalakoti07.android.musico.viewmodels.GenreDetailsViewModel;
 import com.dalakoti07.android.musico.viewmodels.HomeScreenViewModel;
 import com.dalakoti07.android.musico.viewmodels.SharedListViewModel;
@@ -24,4 +25,10 @@ public abstract class MainViewModelModule {
     @IntoMap
     @ViewModelKey(AlbumDetailsViewModel.class)
     public abstract ViewModel bindAlbumDetailsViewModel(AlbumDetailsViewModel viewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ArtistDetailsViewModel.class)
+    public abstract ViewModel bindArtistViewModel(ArtistDetailsViewModel viewModel);
+
 }

@@ -4,6 +4,7 @@ import com.dalakoti07.android.musico.networks.response.AlbumDetailsResponse;
 import com.dalakoti07.android.musico.networks.response.AllArtistsResponse;
 import com.dalakoti07.android.musico.networks.response.AllGenreResponse;
 import com.dalakoti07.android.musico.networks.response.AllTracksResponse;
+import com.dalakoti07.android.musico.networks.response.ArtistDetailsResponse;
 import com.dalakoti07.android.musico.networks.response.GenreAlbumsResponse;
 import com.dalakoti07.android.musico.networks.response.GenreDetailsResponse;
 
@@ -37,4 +38,7 @@ public interface MusicApiClient {
 
     @GET("2.0")
     Call<AlbumDetailsResponse> getAlbumDetails(@Query(METHOD) String method, @Query("artist") String artist, @Query("album") String album);
+
+    @GET("2.0")
+    Call<ArtistDetailsResponse> getArtistDetails(@Query(METHOD) String method, @Query("artist") String artist);
 }

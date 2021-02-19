@@ -99,7 +99,9 @@ public class GenreDetailFragment extends Fragment {
         adapter.addFragment(artistListFragment,"Artists");
         adapter.addFragment(tracksListFragment,"Tracks");
         binding.tvDescription.setMovementMethod(new ScrollingMovementMethod());
-        binding.ivBack.setOnClickListener(v->{
+        binding.toolbar.setTitle(currentGenre);
+        binding.toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
+        binding.toolbar.setNavigationOnClickListener(v->{
             navController.navigateUp();
         });
         viewModel.getMusicWiki(currentGenre).observe(getViewLifecycleOwner(), new Observer<GenreDetailsResponse.MusicTag>() {

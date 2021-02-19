@@ -27,6 +27,7 @@ import com.dalakoti07.android.musico.databinding.FragmentAlbumListBinding;
 import com.dalakoti07.android.musico.di.qualifier.ActivityContext;
 import com.dalakoti07.android.musico.ui.activity.MainActivity;
 import com.dalakoti07.android.musico.ui.adapters.CommonListAdapter;
+import com.dalakoti07.android.musico.utils.Constants;
 import com.dalakoti07.android.musico.viewmodels.SharedListViewModel;
 import com.dalakoti07.android.musico.viewmodels.ViewModelProviderFactory;
 import com.dalakoti07.android.musico.databinding.FragmentAlbumListBinding;
@@ -102,6 +103,9 @@ public class ArtistListFragment extends Fragment implements CommonListAdapter.Ca
 
     @Override
     public void cardClicked(UIData uiElementClicked) {
-        navController.navigate(R.id.action_genreDetailFragment_to_artistDetailFragment);
+        Bundle bundle= new Bundle();
+        ArtistModel artist=(ArtistModel) uiElementClicked;
+        bundle.putString(Constants.artistName,artist.getName());
+        navController.navigate(R.id.action_genreDetailFragment_to_artistDetailFragment,bundle);
     }
 }

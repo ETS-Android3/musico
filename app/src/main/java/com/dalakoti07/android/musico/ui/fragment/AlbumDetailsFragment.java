@@ -23,6 +23,7 @@ import com.dalakoti07.android.musico.databinding.FragmentAlbumDetailsBinding;
 import com.dalakoti07.android.musico.networks.response.AlbumDetailsResponse;
 import com.dalakoti07.android.musico.ui.activity.MainActivity;
 import com.dalakoti07.android.musico.ui.adapters.CommonListAdapter;
+import com.dalakoti07.android.musico.ui.adapters.SongTrackAdapter;
 import com.dalakoti07.android.musico.utils.Constants;
 import com.dalakoti07.android.musico.viewmodels.AlbumDetailsViewModel;
 import com.dalakoti07.android.musico.viewmodels.ViewModelProviderFactory;
@@ -31,10 +32,10 @@ import java.util.ArrayList;
 
 import javax.inject.Inject;
 
-public class AlbumDetailsFragment extends Fragment implements CommonListAdapter.CardClickListener {
+public class AlbumDetailsFragment extends Fragment{
     private FragmentAlbumDetailsBinding binding;
     private NavController navController;
-    private CommonListAdapter adapter;
+    private SongTrackAdapter adapter;
 
     //todo add shimmer
     Context context;
@@ -71,8 +72,7 @@ public class AlbumDetailsFragment extends Fragment implements CommonListAdapter.
         viewModel = ViewModelProviders.of(this,viewModelFactory).get(AlbumDetailsViewModel.class);
         String artistName = getArguments().getString(Constants.artistName);
         String albumName = getArguments().getString(Constants.albumName);
-        adapter = new CommonListAdapter(CommonListAdapter.ViewType.Tracks, this);
-        adapter.setSkipImages(true);
+        adapter = new SongTrackAdapter();
         binding.rvTracks.setAdapter(adapter);
         viewModel.getAlbumDetails(artistName, albumName).observe(getViewLifecycleOwner(), new Observer<AlbumDetailsResponse>() {
             @Override
@@ -108,7 +108,8 @@ public class AlbumDetailsFragment extends Fragment implements CommonListAdapter.
     }
 
     @Override
-    public void cardClicked(UIData uiElementClicked) {
-        // do nothing
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding=null;
     }
 }

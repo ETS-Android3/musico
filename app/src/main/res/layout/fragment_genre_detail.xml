@@ -1,5 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?><!--todo collapsable toolbar and status bar color changes as per fragment scroll-->
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<!--todo collapsable toolbar and status bar color changes as per fragment scroll-->
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,6 +9,7 @@
     tools:context=".ui.fragment.GenreDetailFragment">
 
     <androidx.appcompat.widget.Toolbar
+        app:titleTextColor="@color/black"
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
@@ -14,54 +17,10 @@
         android:elevation="10dp"
         app:contentInsetStart="0dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:id="@+id/iv_back"
-                android:layout_width="?actionBarSize"
-                android:layout_height="?actionBarSize"
-                android:layout_gravity="center"
-                android:layout_marginStart="@dimen/small_margin"
-                android:padding="9dp"
-                android:src="@drawable/ic_arrow_back"
-                android:textSize="@dimen/large_text_size"
-                app:tint="@color/black" />
-
-            <TextView
-                android:id="@+id/toolbar_title"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginEnd="@dimen/small_margin"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="Musico"
-                android:textColor="@color/black"
-                android:textSize="@dimen/large_text_size" />
-
-            <TextView
-                android:id="@+id/btn_done"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginEnd="@dimen/small_margin"
-                android:gravity="end"
-                android:text="Next"
-                android:textColor="#2872ee"
-                android:textSize="@dimen/small_text_size"
-                android:visibility="invisible"
-                app:drawableStartCompat="@drawable/ic_arrow_back" />
-
-        </LinearLayout>
-
-    </androidx.appcompat.widget.Toolbar>
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
+        android:visibility="gone"
         android:id="@+id/tv_genre_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -94,7 +53,6 @@
         android:layout_marginLeft="@dimen/small_margin"
         android:layout_marginTop="@dimen/small_margin"
         android:layout_marginRight="@dimen/small_margin"
-        android:height="200dp"
         android:ellipsize="end"
         android:textColor="@color/black"
         android:textSize="@dimen/small_text_size"
