@@ -16,11 +16,14 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.dalakoti07.android.musico.R;
 import com.dalakoti07.android.musico.data.models.AlbumModel;
+import com.dalakoti07.android.musico.data.models.ArtistModel;
 import com.dalakoti07.android.musico.data.models.UIData;
 import com.dalakoti07.android.musico.databinding.FragmentAlbumListBinding;
 import com.dalakoti07.android.musico.di.qualifier.ActivityContext;
+import com.dalakoti07.android.musico.networks.response.AlbumDetailsResponse;
 import com.dalakoti07.android.musico.ui.activity.MainActivity;
 import com.dalakoti07.android.musico.ui.adapters.CommonListAdapter;
+import com.dalakoti07.android.musico.utils.Constants;
 import com.dalakoti07.android.musico.viewmodels.SharedListViewModel;
 import com.dalakoti07.android.musico.viewmodels.ViewModelProviderFactory;
 
@@ -49,7 +52,6 @@ public class AlbumListFragment extends Fragment implements CommonListAdapter.Car
         this.context=context;
         if(getActivity()!=null){
             GenreDetailFragment.fragmentComponent.inject(this);
-//            ((MainActivity)getActivity()).mainComponent.inject(this);
         }
     }
 
@@ -97,6 +99,10 @@ public class AlbumListFragment extends Fragment implements CommonListAdapter.Car
 
     @Override
     public void cardClicked(UIData uiElementClicked) {
-        navController.navigate(R.id.action_genreDetailFragment_to_albumDetailsFragment);
+        AlbumModel album= (AlbumModel) uiElementClicked;
+        Bundle bundle=new Bundle();
+        bundle.putString(Constants.albumName,album.getName());
+        bundle.putString(Constants.artistName,album.getArtist().getName());
+        navController.navigate(R.id.action_genreDetailFragment_to_albumDetailsFragment,bundle);
     }
 }

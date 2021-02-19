@@ -39,7 +39,7 @@ public class GenreDetailFragment extends Fragment {
     private FragmentGenreDetailBinding binding;
     private NavController navController;
     public static String currentGenre;
-
+    //todo put genre name in toolbar rather than app name
     public GenreDetailFragment() {
         // Required empty public constructor
     }

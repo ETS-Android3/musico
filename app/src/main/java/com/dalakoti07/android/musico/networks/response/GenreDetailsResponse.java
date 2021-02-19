@@ -20,12 +20,15 @@ public class GenreDetailsResponse {
         @SerializedName("name")
         @Expose
         private String name;
+
         @SerializedName("total")
         @Expose
         private Integer total;
+
         @SerializedName("reach")
         @Expose
         private Integer reach;
+
         @SerializedName("wiki")
         @Expose
         private MusicWiki wiki;
@@ -65,10 +68,22 @@ public class GenreDetailsResponse {
     }
 
     public static class MusicWiki {
+        @SerializedName("published")
+        @Expose
+        private String published;
+
+        public String getPublished() {
+            return published;
+        }
+
+        public void setPublished(String published) {
+            this.published = published;
+        }
 
         @SerializedName("summary")
         @Expose
         private String summary;
+
         @SerializedName("content")
         @Expose
         private String content;

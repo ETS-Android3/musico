@@ -2,6 +2,7 @@ package com.dalakoti07.android.musico.di.modules;
 
 import androidx.lifecycle.ViewModel;
 
+import com.dalakoti07.android.musico.viewmodels.AlbumDetailsViewModel;
 import com.dalakoti07.android.musico.viewmodels.GenreDetailsViewModel;
 import com.dalakoti07.android.musico.viewmodels.HomeScreenViewModel;
 import com.dalakoti07.android.musico.viewmodels.SharedListViewModel;

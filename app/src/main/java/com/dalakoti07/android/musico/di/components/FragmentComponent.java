@@ -8,6 +8,7 @@ import com.dalakoti07.android.musico.di.modules.TabsViewModelModule;
 import com.dalakoti07.android.musico.di.qualifier.ActivityContext;
 import com.dalakoti07.android.musico.di.qualifier.ApplicationContext;
 import com.dalakoti07.android.musico.di.scopes.FragmentScope;
+import com.dalakoti07.android.musico.ui.fragment.AlbumDetailsFragment;
 import com.dalakoti07.android.musico.ui.fragment.AlbumListFragment;
 import com.dalakoti07.android.musico.ui.fragment.ArtistListFragment;
 import com.dalakoti07.android.musico.ui.fragment.GenreDetailFragment;
@@ -33,4 +34,5 @@ public interface FragmentComponent {
     void inject(AlbumListFragment fragment);
     void inject(ArtistListFragment fragment);
     void inject(TracksListFragment fragment);
+    void inject(AlbumDetailsFragment fragment);
 }

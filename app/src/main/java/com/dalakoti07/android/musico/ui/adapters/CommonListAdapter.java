@@ -26,6 +26,7 @@ import timber.log.Timber;
 public class CommonListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private ArrayList<UIData> albumsArrayList= new ArrayList<>();
     private ViewType adapterViewType;
+    private Boolean skipImages=false;
     public static enum ViewType{
         Albums,
         Artist,
@@ -42,6 +43,10 @@ public class CommonListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         this.cardClickListener=listener;
     }
 
+    public void setSkipImages(boolean value){
+        skipImages=value;
+    }
+
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -52,11 +57,11 @@ public class CommonListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if(adapterViewType==ViewType.Albums){
-            ((SimpleHolder)holder).bindData((AlbumModel) albumsArrayList.get(position),this.adapterViewType,cardClickListener);
+            ((SimpleHolder)holder).bindData((AlbumModel) albumsArrayList.get(position),this.adapterViewType,cardClickListener,skipImages);
         }else if(adapterViewType==ViewType.Artist){
-            ((SimpleHolder)holder).bindData((ArtistModel) albumsArrayList.get(position),this.adapterViewType,cardClickListener);
+            ((SimpleHolder)holder).bindData((ArtistModel) albumsArrayList.get(position),this.adapterViewType,cardClickListener,skipImages);
         }else
-            ((SimpleHolder)holder).bindData((TrackModel) albumsArrayList.get(position),this.adapterViewType,cardClickListener);
+            ((SimpleHolder)holder).bindData((TrackModel) albumsArrayList.get(position),this.adapterViewType,cardClickListener,skipImages);
     }
 
     public void addAlbumData(ArrayList<AlbumModel> albumModels){
@@ -90,7 +95,7 @@ public class CommonListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
         //todo add gradient to the card so that both text appear clearly
 
-        public void bindData(UIData uiData,ViewType viewType,CardClickListener cardClickListener){
+        public void bindData(UIData uiData,ViewType viewType,CardClickListener cardClickListener,boolean skipImages){
             switch (viewType){
                 case Albums:
                     AlbumModel albumModel=(AlbumModel) uiData;
@@ -135,17 +140,19 @@ public class CommonListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 case Tracks:
                     index=-1;
                     TrackModel trackModel= (TrackModel) uiData;
-                    // if possible get the high quality image
-                    switch (trackModel.getImage().size()){
-                        case 4: index=3;break;
-                        case 3:index=2;break;
-                        case 2:index=1;break;
-                        default:index=0;
+                    if(!skipImages){
+                        // if possible get the high quality image
+                        switch (trackModel.getImage().size()){
+                            case 4: index=3;break;
+                            case 3:index=2;break;
+                            case 2:index=1;break;
+                            default:index=0;
+                        }
+                        Glide.with(rvSimpleCardBinding.getRoot())
+                                .load(trackModel.getImage().get(index).getText())
+                                .centerCrop()
+                                .into(rvSimpleCardBinding.ivItem);
                     }
-                    Glide.with(rvSimpleCardBinding.getRoot())
-                            .load(trackModel.getImage().get(index).getText())
-                            .centerCrop()
-                            .into(rvSimpleCardBinding.ivItem);
                     rvSimpleCardBinding.tvUpper.setText(trackModel.getName());
                     rvSimpleCardBinding.tvLower.setText(trackModel.getArtist().getName());
                     rvSimpleCardBinding.getRoot().setOnClickListener(v->{

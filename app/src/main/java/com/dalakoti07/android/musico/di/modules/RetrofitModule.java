@@ -32,7 +32,7 @@ public class RetrofitModule {
     @Provides
     @Singleton
     MusicApiClient getApiInterface(Retrofit retroFit) {
-        Timber.d("creating api service from retrofit instance");
+        Timber.d("created api service from retrofit instance");
         return retroFit.create(MusicApiClient.class);
     }
 
