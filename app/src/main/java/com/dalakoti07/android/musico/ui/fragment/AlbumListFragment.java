@@ -31,8 +31,7 @@ public class AlbumListFragment extends Fragment {
     private FragmentAlbumListBinding binding;
     private CommonListAdapter adapter;
 
-    @ActivityContext
-    @Inject
+
     Context context;
 
     @Inject
@@ -43,8 +42,10 @@ public class AlbumListFragment extends Fragment {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
+        this.context=context;
         if(getActivity()!=null){
-            ((MainActivity)getActivity()).mainComponent.inject(this);
+            GenreDetailFragment.fragmentComponent.inject(this);
+//            ((MainActivity)getActivity()).mainComponent.inject(this);
         }
     }
 

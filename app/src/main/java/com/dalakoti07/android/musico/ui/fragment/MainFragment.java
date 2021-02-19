@@ -38,8 +38,7 @@ public class MainFragment extends Fragment implements GenreAdapter.genreCardClic
     private FragmentMainBinding mainBinding;
     private NavController navController;
     private GenreAdapter genreAdapter;
-    @ActivityContext
-    @Inject
+
     Context context;
 
     @Inject
@@ -53,6 +52,7 @@ public class MainFragment extends Fragment implements GenreAdapter.genreCardClic
 
     @Override
     public void onAttach(@NonNull Context context) {
+        this.context=context;
         super.onAttach(context);
         if(getActivity()!=null){
             ((MainActivity)getActivity()).mainComponent.inject(this);

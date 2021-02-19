@@ -5,6 +5,8 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.dalakoti07.android.musico.data.models.AlbumModel;
+import com.dalakoti07.android.musico.di.scopes.ActivityScope;
+import com.dalakoti07.android.musico.di.scopes.FragmentScope;
 import com.dalakoti07.android.musico.networks.MusicApiClient;
 import com.dalakoti07.android.musico.networks.response.GenreAlbumsResponse;
 
@@ -20,6 +22,7 @@ import timber.log.Timber;
 /**
  * This viewModel is shared by AlbumListFragment,ArtistListFragment,TracksListFragment
  */
+@FragmentScope
 public class SharedListViewModel extends ViewModel {
     private MutableLiveData<List<AlbumModel>> albumArrayList;
     private MutableLiveData<String> errorMessage= new MutableLiveData<>();
@@ -39,7 +42,6 @@ public class SharedListViewModel extends ViewModel {
             return fetchAlbumsFromServer(genre);
         }
     }
-
 
 
     private LiveData<List<AlbumModel>> fetchAlbumsFromServer(String genre) {

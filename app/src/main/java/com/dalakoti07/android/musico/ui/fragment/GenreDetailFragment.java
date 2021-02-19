@@ -17,8 +17,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.dalakoti07.android.musico.MusicApplication;
 import com.dalakoti07.android.musico.R;
 import com.dalakoti07.android.musico.databinding.FragmentGenreDetailBinding;
+import com.dalakoti07.android.musico.di.components.FragmentComponent;
 import com.dalakoti07.android.musico.di.qualifier.ActivityContext;
 import com.dalakoti07.android.musico.networks.response.GenreDetailsResponse;
 import com.dalakoti07.android.musico.ui.activity.MainActivity;
@@ -33,6 +35,7 @@ import javax.inject.Inject;
 import es.dmoral.toasty.Toasty;
 
 public class GenreDetailFragment extends Fragment {
+    public static FragmentComponent fragmentComponent;
     private FragmentGenreDetailBinding binding;
     private NavController navController;
     public static String currentGenre;
@@ -42,8 +45,6 @@ public class GenreDetailFragment extends Fragment {
     }
 
     //todo collapse the summary when we are scrolling genres, alnumbs, items down
-    @ActivityContext
-    @Inject
     Context context;
 
     @Inject
@@ -62,9 +63,11 @@ public class GenreDetailFragment extends Fragment {
 
     @Override
     public void onAttach(@NonNull Context context) {
+        this.context=context;
         super.onAttach(context);
         if(getActivity()!=null){
             ((MainActivity)getActivity()).mainComponent.inject(this);
+             fragmentComponent= MusicApplication.get(getActivity()).getApplicationComponent().fragmentComponent().create();
         }
     }
 
@@ -114,7 +117,6 @@ public class GenreDetailFragment extends Fragment {
 
         binding.viewPager.setAdapter(adapter);
         binding.tabLayout.setupWithViewPager(binding.viewPager);
-        binding.tabLayout.getTabAt(1).select();
     }
 
     @Override

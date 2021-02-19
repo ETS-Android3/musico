@@ -15,4 +15,5 @@ public interface AppComponent {
 
     //exposing sub-components for activities and fragments
     MainComponent.Factory mainComponent();
+    FragmentComponent.Factory fragmentComponent();
 }

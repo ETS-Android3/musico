@@ -13,7 +13,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        mainComponent= MusicApplication.get(this).getApplicationComponent().mainComponent().create(this);
+        mainComponent= MusicApplication.get(this).getApplicationComponent().mainComponent().create();
         mainComponent.inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
