@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">Musico</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="fake_data">Lorem ipsium A music repository app, to keep track of latest music and explore new music! A music repository app, to keep track of latest music and explore new music! A music repository app, to keep track of latest music and explore new music! </string>
 </resources>

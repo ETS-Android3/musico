@@ -12,7 +12,11 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import okhttp3.HttpUrl;
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -43,6 +47,23 @@ public class RetrofitModule {
     OkHttpClient getOkHttpCleint(HttpLoggingInterceptor httpLoggingInterceptor) {
         return new OkHttpClient.Builder()
                 .addInterceptor(httpLoggingInterceptor)
+                .addInterceptor(new Interceptor() {
+                    @Override
+                    public @NotNull Response intercept(@NotNull Chain chain) throws IOException {
+                        Request.Builder originalRequest = chain.request().newBuilder();
+                        // Request customization: add request headers
+/*                        Request.Builder requestBuilder = original.newBuilder()
+                                .header("Authorization", manager.getUserAccessToken());
+                        Request request = requestBuilder.build();
+                        return chain.proceed(request);*/
+                        HttpUrl originalHttpUrl=chain.request().url();
+                        HttpUrl newHttpUrl= originalHttpUrl.newBuilder().addQueryParameter("api_key","7c5701c72b926f5d1e5b209aadd3aedc")
+                                .addQueryParameter("format","json")
+                                .build();
+                        originalRequest.url(newHttpUrl);
+                        return chain.proceed(originalRequest.build());
+                    }
+                })
                 .build();
     }
 

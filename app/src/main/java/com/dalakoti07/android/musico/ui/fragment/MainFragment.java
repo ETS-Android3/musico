@@ -10,7 +10,6 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
-import androidx.recyclerview.widget.DividerItemDecoration;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,7 +22,6 @@ import com.dalakoti07.android.musico.databinding.FragmentMainBinding;
 import com.dalakoti07.android.musico.di.qualifier.ActivityContext;
 import com.dalakoti07.android.musico.ui.activity.MainActivity;
 import com.dalakoti07.android.musico.ui.adapters.GenreAdapter;
-import com.dalakoti07.android.musico.utils.ItemDecorationAlbumColumns;
 import com.dalakoti07.android.musico.viewmodels.HomeScreenViewModel;
 import com.dalakoti07.android.musico.viewmodels.ViewModelProviderFactory;
 
@@ -71,6 +69,7 @@ public class MainFragment extends Fragment implements GenreAdapter.genreCardClic
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         navController= NavHostFragment.findNavController(this);
+        //todo dynamic greetings, as per time
         viewModel= ViewModelProviders.of(getActivity(),viewModelFactory).get(HomeScreenViewModel.class);
         genreAdapter= new GenreAdapter(this);
         mainBinding.rvGenres.setAdapter(genreAdapter);
@@ -92,5 +91,6 @@ public class MainFragment extends Fragment implements GenreAdapter.genreCardClic
     @Override
     public void cardClicked(SongGenre model) {
         Toast.makeText(context, "clicked", Toast.LENGTH_SHORT).show();
+        navController.navigate(R.id.action_mainFragment_to_genreDetailFragment);
     }
 }
