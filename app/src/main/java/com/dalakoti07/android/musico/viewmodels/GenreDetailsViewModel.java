@@ -17,8 +17,7 @@ import retrofit2.Response;
 import timber.log.Timber;
 
 public class GenreDetailsViewModel extends ViewModel {
-    // todo error handling in api-falls in all viewmodels,
-    //  create a view which would show the error message when something went wrong
+
     @Inject
     public MusicApiClient apiInterface;
 

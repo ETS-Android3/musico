@@ -13,6 +13,7 @@ import timber.log.Timber;
 
 public class MusicApplication extends Application {
     AppComponent appComponent;
+    private static String packageName;
 
     @Override
     public void onCreate() {
@@ -24,6 +25,11 @@ public class MusicApplication extends Application {
         appComponent= DaggerAppComponent.builder().retrofitModule(new RetrofitModule())
                 .contextModule(new ContextModule(this))
                 .build();
+        packageName=this.getPackageName();
+    }
+
+    public  static String getApplicationPackageName(){
+        return packageName;
     }
 
     public static MusicApplication get(Activity activity){

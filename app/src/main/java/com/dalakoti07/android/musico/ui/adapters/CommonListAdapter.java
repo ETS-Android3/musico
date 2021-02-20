@@ -93,7 +93,6 @@ public class CommonListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             super(itemView);
             rvSimpleCardBinding=RvSimpleCardBinding.bind(itemView);
         }
-        //todo add gradient to the card so that both text appear clearly
 
         public void bindData(UIData uiData,ViewType viewType,CardClickListener cardClickListener,boolean skipImages){
             switch (viewType){

@@ -9,7 +9,6 @@ import java.util.Locale;
 import timber.log.Timber;
 
 public class TimelyGreetings {
-    //todo create utils for fake celebs photos and mix them randomly
 
     public static String getGreetings(){
         DateFormat df = new SimpleDateFormat("KK:mm:ss a, dd/MM/yyyy", Locale.getDefault());

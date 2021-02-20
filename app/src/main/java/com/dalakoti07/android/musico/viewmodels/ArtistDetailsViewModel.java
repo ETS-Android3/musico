@@ -28,7 +28,6 @@ public class ArtistDetailsViewModel extends ViewModel {
         Timber.d("created artist details viewmodel");
     }
 
-    //todo error handling
     public LiveData<String> getApiError() {
         return apiError;
     }

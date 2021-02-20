@@ -44,7 +44,6 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@id/tv_genre_name" />
 
-<!--   todo make it expandable when clicked -->
     <TextView
         android:scrollbars="vertical"
         android:id="@+id/tv_description"

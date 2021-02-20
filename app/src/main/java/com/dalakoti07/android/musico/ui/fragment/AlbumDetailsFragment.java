@@ -24,6 +24,7 @@ import com.dalakoti07.android.musico.networks.response.AlbumDetailsResponse;
 import com.dalakoti07.android.musico.ui.activity.MainActivity;
 import com.dalakoti07.android.musico.ui.adapters.CommonListAdapter;
 import com.dalakoti07.android.musico.ui.adapters.SongTrackAdapter;
+import com.dalakoti07.android.musico.utils.ChromeCustomTabs;
 import com.dalakoti07.android.musico.utils.Constants;
 import com.dalakoti07.android.musico.viewmodels.AlbumDetailsViewModel;
 import com.dalakoti07.android.musico.viewmodels.ViewModelProviderFactory;
@@ -32,10 +33,14 @@ import java.util.ArrayList;
 
 import javax.inject.Inject;
 
-public class AlbumDetailsFragment extends Fragment{
+import es.dmoral.toasty.Toasty;
+import timber.log.Timber;
+
+public class AlbumDetailsFragment extends Fragment implements SongTrackAdapter.cardItemListener {
     private FragmentAlbumDetailsBinding binding;
     private NavController navController;
     private SongTrackAdapter adapter;
+    private ChromeCustomTabs chromeTab;
 
     //todo add shimmer
     Context context;
@@ -69,15 +74,25 @@ public class AlbumDetailsFragment extends Fragment{
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         navController = NavHostFragment.findNavController(this);
+        chromeTab = new ChromeCustomTabs(context);
         viewModel = ViewModelProviders.of(this,viewModelFactory).get(AlbumDetailsViewModel.class);
         String artistName = getArguments().getString(Constants.artistName);
         String albumName = getArguments().getString(Constants.albumName);
-        adapter = new SongTrackAdapter();
-        binding.rvTracks.setAdapter(adapter);
+        adapter = new SongTrackAdapter(this);
+        binding.mainContent.rvTracks.setAdapter(adapter);
+        binding.toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
+        binding.toolbar.setOnClickListener(v->{navController.navigateUp();});
+        binding.toolbar.setTitle(albumName);
         viewModel.getAlbumDetails(artistName, albumName).observe(getViewLifecycleOwner(), new Observer<AlbumDetailsResponse>() {
             @Override
             public void onChanged(AlbumDetailsResponse albumDetailsResponse) {
                 fillDataInUI(albumDetailsResponse);
+            }
+        });
+        viewModel.getApiError().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                Toasty.error(context,s,Toasty.LENGTH_LONG,false).show();
             }
         });
     }
@@ -100,16 +115,22 @@ public class AlbumDetailsFragment extends Fragment{
         Glide.with(binding.ivAlbumCover.getContext())
                 .load(albumDetailsResponse.getAlbum().getImage().get(index).getText()).fitCenter()
                 .into(binding.ivAlbumCover);
-        binding.tvAlbumName.setText(albumDetailsResponse.getAlbum().getName());
-        binding.tvAlbumName.setText(albumDetailsResponse.getAlbum().getArtist());
-        binding.tvPublishedOnVal.setText(albumDetailsResponse.getAlbum().getWiki().getPublished());
-        binding.tvSummary.setText(albumDetailsResponse.getAlbum().getWiki().getSummary());
+        binding.mainContent.tvArtistName.setText(albumDetailsResponse.getAlbum().getArtist());
+        binding.mainContent.tvPublishedOnVal.setText(albumDetailsResponse.getAlbum().getWiki().getPublished());
+        binding.mainContent.tvSummary.setText(albumDetailsResponse.getAlbum().getWiki().getSummary());
         adapter.addTracksData((ArrayList<TrackModel>) albumDetailsResponse.getAlbum().getTracks().getTrack());
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        chromeTab.destroy();
         binding=null;
+    }
+
+    @Override
+    public void cardItemClicked(TrackModel track) {
+        Timber.d("album track clicked");
+        chromeTab.launchUrl(track.getUrl());
     }
 }

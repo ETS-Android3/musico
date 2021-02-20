@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,12 +18,15 @@ import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
 import com.dalakoti07.android.musico.R;
+import com.dalakoti07.android.musico.data.models.ArtistModel;
 import com.dalakoti07.android.musico.databinding.FragmentArtistDetailBinding;
 import com.dalakoti07.android.musico.networks.response.AlbumDetailsResponse;
 import com.dalakoti07.android.musico.networks.response.ArtistDetailsResponse;
 import com.dalakoti07.android.musico.networks.response.GenreDetailsResponse;
 import com.dalakoti07.android.musico.ui.activity.MainActivity;
 import com.dalakoti07.android.musico.ui.adapters.SimilarArtistAdapter;
+import com.dalakoti07.android.musico.utils.ChromeCustomTabs;
+import com.dalakoti07.android.musico.utils.CommonUIUtils;
 import com.dalakoti07.android.musico.utils.Constants;
 import com.dalakoti07.android.musico.viewmodels.AlbumDetailsViewModel;
 import com.dalakoti07.android.musico.viewmodels.ArtistDetailsViewModel;
@@ -32,12 +36,14 @@ import com.google.android.material.chip.ChipGroup;
 
 import javax.inject.Inject;
 
-public class ArtistDetailFragment extends Fragment {
+import es.dmoral.toasty.Toasty;
+
+public class ArtistDetailFragment extends Fragment implements SimilarArtistAdapter.cardItemListener{
     private FragmentArtistDetailBinding binding;
     private NavController navController;
     private SimilarArtistAdapter adapter;
-
-    //todo add a web client inside the app that opens artists link inside app
+    private String artistName;
+    private ChromeCustomTabs chromeTab;
 
     Context context;
 
@@ -69,10 +75,10 @@ public class ArtistDetailFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        chromeTab = new ChromeCustomTabs(context);
         navController = NavHostFragment.findNavController(this);
         viewModel = ViewModelProviders.of(this,viewModelFactory).get(ArtistDetailsViewModel.class);
-        String artistName=getArguments().getString(Constants.artistName);
+        artistName=getArguments().getString(Constants.artistName);
         viewModel.getArtistDetails(artistName)
                 .observe(getViewLifecycleOwner(), new Observer<ArtistDetailsResponse>() {
                     @Override
@@ -80,10 +86,17 @@ public class ArtistDetailFragment extends Fragment {
                         fillTheDataInUI(artistDetailsResponse);
                     }
                 });
+        viewModel.getApiError().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                Toasty.error(context,s,Toasty.LENGTH_LONG,false).show();
+            }
+        });
         binding.toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
         binding.toolbar.setOnClickListener(v->{navController.navigateUp();});
         binding.toolbar.setTitle(artistName);
-        adapter= new SimilarArtistAdapter();
+        adapter= new SimilarArtistAdapter(this);
+        binding.contentWrapper.rvSimilarArtist.addItemDecoration(new DividerItemDecoration(context,DividerItemDecoration.VERTICAL));
         binding.contentWrapper.rvSimilarArtist.setAdapter(adapter);
     }
 
@@ -103,7 +116,9 @@ public class ArtistDetailFragment extends Fragment {
                 index = 0;
         }
         Glide.with(binding.ivCover.getContext())
-                .load(artistDetailsResponse.getArtist().getImage().get(index).getText()).fitCenter()
+                .load("")
+                .load(CommonUIUtils.getArtistImage(artistName,
+                        artistDetailsResponse.getArtist().getImage().get(index).getText())).fitCenter()
                 .into(binding.ivCover);
         index=0;
         for(AlbumDetailsResponse.MusicTags tag: artistDetailsResponse.getArtist().getTags().getPublished()){
@@ -119,12 +134,19 @@ public class ArtistDetailFragment extends Fragment {
     }
 
     private void chipClicked(View v) {
-        //todo launch web activity
+        String url=(String)v.getTag();
+        chromeTab.launchUrl(url);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        chromeTab.destroy();
         binding=null;
+    }
+
+    @Override
+    public void cardItemClicked(ArtistModel artist) {
+        chromeTab.launchUrl(artist.getUrl());
     }
 }

@@ -43,7 +43,7 @@ public class GenreDetailFragment extends Fragment {
         // Required empty public constructor
     }
 
-    //todo collapse the summary when we are scrolling genres, alnumbs, items down
+    //todo collapse the summary when we are scrolling genres, albums, items down
     Context context;
 
     @Inject
@@ -106,7 +106,7 @@ public class GenreDetailFragment extends Fragment {
             binding.tvDescription.setText(musicTag.getWiki().getSummary());
         });
         viewModel.getErrorData().observe(getViewLifecycleOwner(), s -> {
-            Toasty.error(context,s).show();
+            Toasty.error(context,s,Toasty.LENGTH_LONG,false).show();
             binding.progressBar.setVisibility(View.GONE);
         });
 
