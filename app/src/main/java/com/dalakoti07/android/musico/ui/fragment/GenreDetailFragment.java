@@ -39,7 +39,6 @@ public class GenreDetailFragment extends Fragment {
     private FragmentGenreDetailBinding binding;
     private NavController navController;
     public static String currentGenre;
-    //todo put genre name in toolbar rather than app name
     public GenreDetailFragment() {
         // Required empty public constructor
     }
@@ -66,11 +65,9 @@ public class GenreDetailFragment extends Fragment {
         this.context=context;
         super.onAttach(context);
         if(getActivity()!=null){
-//            ((MainActivity)getActivity()).mainComponent.inject(this);
              fragmentComponent= MusicApplication.get(getActivity()).getApplicationComponent().fragmentComponent()
                      .create();
              fragmentComponent.inject(this);
-             //MusicApplication.get(getActivity()).getApplicationComponent()
         }
     }
 
@@ -83,7 +80,6 @@ public class GenreDetailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         binding=FragmentGenreDetailBinding.inflate(inflater,container,false);
         return binding.getRoot();
     }
@@ -99,25 +95,19 @@ public class GenreDetailFragment extends Fragment {
         adapter.addFragment(artistListFragment,"Artists");
         adapter.addFragment(tracksListFragment,"Tracks");
         binding.tvDescription.setMovementMethod(new ScrollingMovementMethod());
-        binding.toolbar.setTitle(currentGenre);
+        binding.toolbar.setTitle(currentGenre.toUpperCase());
         binding.toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
         binding.toolbar.setNavigationOnClickListener(v->{
             navController.navigateUp();
         });
-        viewModel.getMusicWiki(currentGenre).observe(getViewLifecycleOwner(), new Observer<GenreDetailsResponse.MusicTag>() {
-            @Override
-            public void onChanged(GenreDetailsResponse.MusicTag musicTag) {
-                binding.progressBar.setVisibility(View.GONE);
-                binding.tvGenreName.setText(musicTag.getName().toUpperCase());
-                binding.tvDescription.setText(musicTag.getWiki().getSummary());
-            }
+        viewModel.getMusicWiki(currentGenre).observe(getViewLifecycleOwner(), musicTag -> {
+            binding.progressBar.setVisibility(View.GONE);
+            binding.tvGenreName.setText(musicTag.getName().toUpperCase());
+            binding.tvDescription.setText(musicTag.getWiki().getSummary());
         });
-        viewModel.getErrorData().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(String s) {
-                Toasty.error(context,s).show();
-                binding.progressBar.setVisibility(View.GONE);
-            }
+        viewModel.getErrorData().observe(getViewLifecycleOwner(), s -> {
+            Toasty.error(context,s).show();
+            binding.progressBar.setVisibility(View.GONE);
         });
 
         binding.viewPager.setAdapter(adapter);

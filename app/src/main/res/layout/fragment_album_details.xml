@@ -91,7 +91,7 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-<!--    todo linear items like line (make new adapter for this )
+<!--
         todo only recyclerview is scrolling
         todo add ripple effect onClick -->
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -56,8 +56,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
-        <!--    todo use expandable text library-->
-
         <TextView
             android:text="@string/fake_data"
             android:id="@+id/tv_bio_summary"

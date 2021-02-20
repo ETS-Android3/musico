@@ -8,6 +8,7 @@
 
     <!--    textSize-->
     <dimen name="very_large_text_size">25sp</dimen>
+    <dimen name="heading_text_size">45sp</dimen>
     <dimen name="large_text_size">20sp</dimen>
     <dimen name="small_text_size">18sp</dimen>
     <dimen name="smaller_text_size">16sp</dimen>

@@ -23,6 +23,7 @@ import com.dalakoti07.android.musico.di.qualifier.ActivityContext;
 import com.dalakoti07.android.musico.ui.activity.MainActivity;
 import com.dalakoti07.android.musico.ui.adapters.GenreAdapter;
 import com.dalakoti07.android.musico.utils.Constants;
+import com.dalakoti07.android.musico.utils.TimelyGreetings;
 import com.dalakoti07.android.musico.viewmodels.HomeScreenViewModel;
 import com.dalakoti07.android.musico.viewmodels.ViewModelProviderFactory;
 
@@ -37,7 +38,10 @@ import timber.log.Timber;
 public class MainFragment extends Fragment implements GenreAdapter.genreCardClickListener {
     private FragmentMainBinding mainBinding;
     private NavController navController;
-    private GenreAdapter genreAdapter;
+    private GenreAdapter topFindingsGenreAdapter;
+    private GenreAdapter allGenreAdapter;
+    private ArrayList<SongGenre> topFinding= new ArrayList<>();
+    private ArrayList<SongGenre> allGenres= new ArrayList<>();
 
     Context context;
 
@@ -60,9 +64,8 @@ public class MainFragment extends Fragment implements GenreAdapter.genreCardClic
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         mainBinding=FragmentMainBinding.inflate(inflater,container,false);
         return mainBinding.getRoot();
     }
@@ -71,25 +74,37 @@ public class MainFragment extends Fragment implements GenreAdapter.genreCardClic
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         navController= NavHostFragment.findNavController(this);
-        //todo dynamic greetings, as per time
+        mainBinding.tvGreetings.setText(TimelyGreetings.getGreetings());
         viewModel= ViewModelProviders.of(getActivity(),viewModelFactory).get(HomeScreenViewModel.class);
-        genreAdapter= new GenreAdapter(this);
-        mainBinding.rvGenres.setAdapter(genreAdapter);
-        viewModel.getAllSongGenres().observe(getViewLifecycleOwner(), new Observer<ArrayList<SongGenre>>() {
-            @Override
-            public void onChanged(ArrayList<SongGenre> songGenres) {
-                mainBinding.progressBar.setVisibility(View.GONE);
-                genreAdapter.addAllData(songGenres);
-                genreAdapter.notifyDataSetChanged();
-            }
+        topFindingsGenreAdapter= new GenreAdapter(this);
+        allGenreAdapter= new GenreAdapter(this);
+        mainBinding.rvOtherGenres.setAdapter(allGenreAdapter);
+        mainBinding.rvTopGenres.setAdapter(topFindingsGenreAdapter);
+        setUpListeners();
+    }
+
+    private void setUpListeners() {
+        mainBinding.ivToggleTops.setOnClickListener(v->{
+            topFindingsGenreAdapter.divideDataToggleHideAndUnHide();
+
         });
-        viewModel.getErrorMessage().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(String s) {
-                mainBinding.progressBar.setVisibility(View.GONE);
-                Toasty.error(context,s).show();
-            }
+        mainBinding.ivToggleAllGenre.setOnClickListener(v->{
+            allGenreAdapter.divideDataToggleHideAndUnHide();
         });
+        viewModel.getAllSongGenres().observe(getViewLifecycleOwner(), songGenres -> {
+            mainBinding.progressBar.setVisibility(View.GONE);
+            splitTheDataIntoTwoHalfsAndNotify(songGenres);
+        });
+        viewModel.getErrorMessage().observe(getViewLifecycleOwner(), s -> {
+            mainBinding.progressBar.setVisibility(View.GONE);
+            mainBinding.errorLayout.setVisibility(View.VISIBLE);
+            mainBinding.errorMsg.setText(s);
+        });
+    }
+
+    private void splitTheDataIntoTwoHalfsAndNotify(ArrayList<SongGenre> songGenres) {
+        topFindingsGenreAdapter.addAllData(songGenres.subList(0,11));
+        allGenreAdapter.addAllData( songGenres.subList(11,songGenres.size()));
     }
 
     @Override
