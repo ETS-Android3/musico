@@ -43,6 +43,7 @@ public class AlbumDetailsFragment extends Fragment implements SongTrackAdapter.c
     private NavController navController;
     private SongTrackAdapter adapter;
     private ChromeCustomTabs chromeTab;
+    private String artistName,albumName;
 
     //todo add shimmer
     @ActivityContext
@@ -79,13 +80,17 @@ public class AlbumDetailsFragment extends Fragment implements SongTrackAdapter.c
         navController = NavHostFragment.findNavController(this);
         chromeTab = new ChromeCustomTabs(context);
         viewModel = ViewModelProviders.of(this,viewModelFactory).get(AlbumDetailsViewModel.class);
-        String artistName = getArguments().getString(Constants.artistName);
-        String albumName = getArguments().getString(Constants.albumName);
+        artistName = getArguments().getString(Constants.artistName);
+        albumName = getArguments().getString(Constants.albumName);
         adapter = new SongTrackAdapter(this);
         binding.mainContent.rvTracks.setAdapter(adapter);
         binding.toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
         binding.toolbar.setOnClickListener(v->{navController.navigateUp();});
         binding.toolbar.setTitle(albumName);
+        setUpObservables();
+    }
+
+    private void setUpObservables() {
         viewModel.getAlbumDetails(artistName, albumName).observe(getViewLifecycleOwner(), new Observer<AlbumDetailsResponse>() {
             @Override
             public void onChanged(AlbumDetailsResponse albumDetailsResponse) {

@@ -25,7 +25,6 @@ import com.dalakoti07.android.musico.databinding.FragmentArtistDetailBinding;
 import com.dalakoti07.android.musico.di.qualifier.ActivityContext;
 import com.dalakoti07.android.musico.networks.response.AlbumDetailsResponse;
 import com.dalakoti07.android.musico.networks.response.ArtistDetailsResponse;
-import com.dalakoti07.android.musico.networks.response.GenreDetailsResponse;
 import com.dalakoti07.android.musico.ui.activity.MainActivity;
 import com.dalakoti07.android.musico.ui.adapters.AlbumsAdapter;
 import com.dalakoti07.android.musico.ui.adapters.SimilarArtistAdapter;
@@ -33,11 +32,9 @@ import com.dalakoti07.android.musico.ui.adapters.SongTrackAdapter;
 import com.dalakoti07.android.musico.utils.ChromeCustomTabs;
 import com.dalakoti07.android.musico.utils.CommonUIUtils;
 import com.dalakoti07.android.musico.utils.Constants;
-import com.dalakoti07.android.musico.viewmodels.AlbumDetailsViewModel;
 import com.dalakoti07.android.musico.viewmodels.ArtistDetailsViewModel;
 import com.dalakoti07.android.musico.viewmodels.ViewModelProviderFactory;
 import com.google.android.material.chip.Chip;
-import com.google.android.material.chip.ChipGroup;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -156,10 +153,10 @@ public class ArtistDetailFragment extends Fragment implements SimilarArtistAdapt
                     .load(CommonUIUtils.getArtistImage(artistName,
                             artistDetailsResponse.getArtist().getImage().get(index).getText())).fitCenter()
                     .into(binding.ivCover);
-            binding.contentWrapper.tvPlayCount.setText(CommonUIUtils.getCountInThousands(
+            binding.contentWrapper.tvPlayCount.setText(CommonUIUtils.getCountInThousandsOrMillions(
                     artistDetailsResponse.getArtist().getArtistStats().playCount
             ));
-            binding.contentWrapper.tvFollowers.setText(CommonUIUtils.getCountInThousands(
+            binding.contentWrapper.tvFollowers.setText(CommonUIUtils.getCountInThousandsOrMillions(
                     artistDetailsResponse.getArtist().getArtistStats().listeners
             ));
             index=0;

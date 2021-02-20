@@ -39,6 +39,7 @@ public class TracksListFragment extends Fragment implements SongTrackAdapter.car
     private FragmentAlbumListBinding binding;
     private SongTrackAdapter adapter;
     private ChromeCustomTabs chromeTab;
+    private String currentGenre;
 
     @ActivityContext
     @Inject
@@ -53,7 +54,6 @@ public class TracksListFragment extends Fragment implements SongTrackAdapter.car
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         if(getActivity()!=null){
-            //((MainActivity)getActivity()).mainComponent.inject(this);
             GenreDetailFragment.fragmentComponent.inject(this);
         }
     }
@@ -77,7 +77,11 @@ public class TracksListFragment extends Fragment implements SongTrackAdapter.car
         chromeTab = new ChromeCustomTabs(context);
         binding.rvListItems.setAdapter(adapter);
         binding.rvListItems.setLayoutManager(new LinearLayoutManager(context));
-        String currentGenre=getArguments().getString(Constants.genreName);
+        currentGenre=getArguments().getString(Constants.genreName);
+        setUpObservables();
+    }
+
+    private void setUpObservables() {
         viewModel.getTheTracks(currentGenre).observe(getViewLifecycleOwner(), new Observer<List<TrackModel>>() {
             @Override
             public void onChanged(List<TrackModel> artistModels) {

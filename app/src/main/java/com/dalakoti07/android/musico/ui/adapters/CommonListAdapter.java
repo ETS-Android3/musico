@@ -25,7 +25,7 @@ import timber.log.Timber;
  * Common adapter used by AlbumListFragment,ArtistListFragment,TracksListFragment
  */
 public class CommonListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private ArrayList<UIData> albumsArrayList= new ArrayList<>();
+    private final ArrayList<UIData> itemsArrayList= new ArrayList<>();
     private ViewType adapterViewType;
     private Boolean skipImages=false;
     public static enum ViewType{
@@ -58,34 +58,34 @@ public class CommonListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if(adapterViewType==ViewType.Albums){
-            ((SimpleHolder)holder).bindData((AlbumModel) albumsArrayList.get(position),this.adapterViewType,cardClickListener,skipImages);
+            ((SimpleHolder)holder).bindData((AlbumModel) itemsArrayList.get(position),this.adapterViewType,cardClickListener,skipImages);
         }else if(adapterViewType==ViewType.Artist){
-            ((SimpleHolder)holder).bindData((ArtistModel) albumsArrayList.get(position),this.adapterViewType,cardClickListener,skipImages);
+            ((SimpleHolder)holder).bindData((ArtistModel) itemsArrayList.get(position),this.adapterViewType,cardClickListener,skipImages);
         }else
-            ((SimpleHolder)holder).bindData((TrackModel) albumsArrayList.get(position),this.adapterViewType,cardClickListener,skipImages);
+            ((SimpleHolder)holder).bindData((TrackModel) itemsArrayList.get(position),this.adapterViewType,cardClickListener,skipImages);
     }
 
     public void addAlbumData(ArrayList<AlbumModel> albumModels){
         Timber.d("adapter albums added ");
-        albumsArrayList.addAll(albumModels);
+        itemsArrayList.addAll(albumModels);
         notifyDataSetChanged();
     }
 
     public void addArtistData(ArrayList<ArtistModel> albumModels){
         Timber.d("adapter artists added ");
-        albumsArrayList.addAll(albumModels);
+        itemsArrayList.addAll(albumModels);
         notifyDataSetChanged();
     }
 
     public void addTracksData(ArrayList<TrackModel> trackModels){
         Timber.d("adapter tracks added ");
-        albumsArrayList.addAll(trackModels);
+        itemsArrayList.addAll(trackModels);
         notifyDataSetChanged();
     }
 
     @Override
     public int getItemCount() {
-        return albumsArrayList.size();
+        return itemsArrayList.size();
     }
 
     public static class SimpleHolder extends RecyclerView.ViewHolder{

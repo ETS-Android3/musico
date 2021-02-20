@@ -4,6 +4,12 @@ import com.google.gson.internal.$Gson$Preconditions;
 
 public class CommonUIUtils {
 
+    /**
+     * Since the artist images are same and non trivial so we have returning better image as per our use case
+     * @param artist artist's name
+     * @param url artist's image url
+     * @return returns a better url
+     */
     public static String getArtistImage(String artist,String url){
         artist=artist.toLowerCase();
         switch (artist){
@@ -16,7 +22,12 @@ public class CommonUIUtils {
         return url;
     }
 
-    public static String getCountInThousands(String number){
+    /**
+     *
+     * @param number in string
+     * @return String which is of format {x}K or {x}M where x is < 10000
+     */
+    public static String getCountInThousandsOrMillions(String number){
         int intNum=Integer.parseInt(number);
         intNum=intNum/1000;
         if(intNum<1000)

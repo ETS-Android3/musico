@@ -10,6 +10,14 @@ import timber.log.Timber;
 
 public class TimelyGreetings {
 
+    /**
+     * A function which returns greeting as per current time
+     * Example Good morning:5 AM to 12 PM
+     * Good afternoon: 12 PM to 6 PM
+     * Good evening:6 PM to 5AM
+     * it never says good night
+     * @return correct greetings
+     */
     public static String getGreetings(){
         DateFormat df = new SimpleDateFormat("KK:mm:ss a, dd/MM/yyyy", Locale.getDefault());
         String currentDateAndTime = df.format(new Date());

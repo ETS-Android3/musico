@@ -30,7 +30,6 @@ public class ChromeCustomTabs {
     public ChromeCustomTabs(@NonNull Context context) {
         this.context = context;
         toolbarColor = ContextCompat.getColor(context, R.color.black);
-//                ThemeHelper.getInstance(context).getPrimaryColor();
         initService();
     }
 

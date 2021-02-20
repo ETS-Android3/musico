@@ -38,6 +38,7 @@ public class AlbumListFragment extends Fragment implements CommonListAdapter.Car
     private FragmentAlbumListBinding binding;
     private CommonListAdapter adapter;
     private NavController navController;
+    private String currentGenre;
 
     @ActivityContext
     @Inject
@@ -74,7 +75,11 @@ public class AlbumListFragment extends Fragment implements CommonListAdapter.Car
         navController= NavHostFragment.findNavController(this);
         adapter=new CommonListAdapter(CommonListAdapter.ViewType.Albums,this);
         binding.rvListItems.setAdapter(adapter);
-        String currentGenre=getArguments().getString(Constants.genreName);
+        currentGenre=getArguments().getString(Constants.genreName);
+        setUpObservable();
+    }
+
+    private void setUpObservable() {
         viewModel.getAlbumsList(currentGenre).observe(getViewLifecycleOwner(), new Observer<List<AlbumModel>>() {
             @Override
             public void onChanged(List<AlbumModel> albumModels) {

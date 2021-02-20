@@ -7,12 +7,15 @@ import com.google.gson.annotations.SerializedName;
     This model used in home screen to show all genres
  */
 public class SongGenre {
+
     @SerializedName("name")
     @Expose
     private String name;
+
     @SerializedName("count")
     @Expose
     private Integer count;
+
     @SerializedName("reach")
     @Expose
     private Integer reach;

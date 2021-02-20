@@ -104,6 +104,12 @@ public class GenreDetailFragment extends Fragment {
         binding.toolbar.setNavigationOnClickListener(v->{
             navController.navigateUp();
         });
+        setUpObservables();
+        binding.viewPager.setAdapter(adapter);
+        binding.tabLayout.setupWithViewPager(binding.viewPager);
+    }
+
+    private void setUpObservables() {
         viewModel.getMusicWiki(currentGenre).observe(getViewLifecycleOwner(), musicTag -> {
             //binding.progressBar.setVisibility(View.GONE);
             binding.tvDescription.setText(musicTag.getWiki().getSummary());
@@ -112,9 +118,6 @@ public class GenreDetailFragment extends Fragment {
             Toasty.error(context,s,Toasty.LENGTH_LONG,false).show();
             //binding.progressBar.setVisibility(View.GONE);
         });
-
-        binding.viewPager.setAdapter(adapter);
-        binding.tabLayout.setupWithViewPager(binding.viewPager);
     }
 
     @Override

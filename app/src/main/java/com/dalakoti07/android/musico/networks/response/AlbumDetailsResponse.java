@@ -145,9 +145,11 @@ public class AlbumDetailsResponse {
     }
 
     public static class MusicTags{
+
         @SerializedName("name")
         @Expose
         private String name;
+
         @SerializedName("url")
         @Expose
         private String url;

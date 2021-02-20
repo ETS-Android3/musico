@@ -40,6 +40,7 @@ public class ArtistListFragment extends Fragment implements CommonListAdapter.Ca
     private FragmentAlbumListBinding binding;
     private CommonListAdapter adapter;
     private NavController navController;
+    private String currentGenre;
 
     @ActivityContext
     @Inject
@@ -76,7 +77,11 @@ public class ArtistListFragment extends Fragment implements CommonListAdapter.Ca
         navController= NavHostFragment.findNavController(this);
         adapter=new CommonListAdapter(CommonListAdapter.ViewType.Artist,this);
         binding.rvListItems.setAdapter(adapter);
-        String currentGenre=getArguments().getString(Constants.genreName);
+        currentGenre=getArguments().getString(Constants.genreName);
+        setUpObservables();
+    }
+
+    private void setUpObservables() {
         viewModel.getArtists(currentGenre).observe(getViewLifecycleOwner(), new Observer<List<ArtistModel>>() {
             @Override
             public void onChanged(List<ArtistModel> artistModels) {

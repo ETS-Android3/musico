@@ -13,15 +13,19 @@ public class AlbumModel implements UIData{
     @SerializedName("name")
     @Expose
     private String name;
+
     @SerializedName("mbid")
     @Expose
     private String mbid;
+
     @SerializedName("url")
     @Expose
     private String url;
+
     @SerializedName("artist")
     @Expose
     private Artist artist;
+
     @SerializedName("image")
     @Expose
     private List<Image> image = null;
@@ -68,12 +72,15 @@ public class AlbumModel implements UIData{
 
 
     public static class Artist{
+
         @SerializedName("name")
         @Expose
         private String name;
+
         @SerializedName("mbid")
         @Expose
         private String mbid;
+
         @SerializedName("url")
         @Expose
         private String url;
@@ -104,9 +111,11 @@ public class AlbumModel implements UIData{
     }
 
     public static class Image{
+
         @SerializedName("#text")
         @Expose
         private String text;
+
         @SerializedName("size")
         @Expose
         private String size;
