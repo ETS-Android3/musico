@@ -14,6 +14,7 @@ import com.dalakoti07.android.musico.data.models.ArtistModel;
 import com.dalakoti07.android.musico.data.models.TrackModel;
 import com.dalakoti07.android.musico.data.models.UIData;
 import com.dalakoti07.android.musico.databinding.RvSimpleCardBinding;
+import com.dalakoti07.android.musico.utils.CommonUIUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -119,7 +120,6 @@ public class CommonListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 case Artist:
                     index=-1;
                     ArtistModel artist= (ArtistModel) uiData;
-                    // if possible get the high quality image
                     switch (artist.getImage().size()){
                         case 4: index=3;break;
                         case 3:index=2;break;
@@ -127,9 +127,11 @@ public class CommonListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                         default:index=0;
                     }
                     Glide.with(rvSimpleCardBinding.getRoot())
-                            .load(artist.getImage().get(index).getText())
-                            .centerCrop()
+                            .load("")
+                            .load(CommonUIUtils.getArtistImage(artist.getName(),
+                                    artist.getImage().get(index).getText())).centerCrop()
                             .into(rvSimpleCardBinding.ivItem);
+
                     rvSimpleCardBinding.tvUpper.setText(artist.getName());
                     rvSimpleCardBinding.tvLower.setVisibility(View.GONE);
                     rvSimpleCardBinding.getRoot().setOnClickListener(v->{
@@ -140,7 +142,6 @@ public class CommonListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                     index=-1;
                     TrackModel trackModel= (TrackModel) uiData;
                     if(!skipImages){
-                        // if possible get the high quality image
                         switch (trackModel.getImage().size()){
                             case 4: index=3;break;
                             case 3:index=2;break;
@@ -148,7 +149,8 @@ public class CommonListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                             default:index=0;
                         }
                         Glide.with(rvSimpleCardBinding.getRoot())
-                                .load(trackModel.getImage().get(index).getText())
+                                //.load(trackModel.getImage().get(index).getText())
+                                .load(R.drawable.ic_music)
                                 .centerCrop()
                                 .into(rvSimpleCardBinding.ivItem);
                     }
