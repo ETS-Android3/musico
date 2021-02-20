@@ -43,6 +43,14 @@ public class ArtistModel implements UIData{
     @Expose
     public MusicTagsWrapper tags;
 
+    @SerializedName("stats")
+    @Expose
+    public ArtistStats artistStats;
+
+    public ArtistStats getArtistStats() {
+        return artistStats;
+    }
+
     public void setBio(ArtistBio bio) {
         this.bio = bio;
     }
@@ -147,6 +155,16 @@ public class ArtistModel implements UIData{
         public void setPublished(ArrayList<AlbumDetailsResponse.MusicTags> published) {
             this.published = published;
         }
+    }
+
+    public static class ArtistStats{
+        @SerializedName("listeners")
+        @Expose
+        public String listeners;
+
+        @SerializedName("playcount")
+        @Expose
+        public String playCount;
     }
 
 }

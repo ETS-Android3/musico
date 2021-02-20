@@ -1,5 +1,7 @@
 package com.dalakoti07.android.musico.utils;
 
+import com.google.gson.internal.$Gson$Preconditions;
+
 public class CommonUIUtils {
 
     public static String getArtistImage(String artist,String url){
@@ -12,5 +14,14 @@ public class CommonUIUtils {
         if(url.contains("2a96cbd8b46e442fc41c2b86b821562f"))
             return "https://cdn.buttercms.com/4YT6ubmSRejqbHCARAHX";
         return url;
+    }
+
+    public static String getCountInThousands(String number){
+        int intNum=Integer.parseInt(number);
+        intNum=intNum/1000;
+        if(intNum<1000)
+            return intNum+"K";
+        intNum=intNum/1000;
+        return intNum+"M";
     }
 }

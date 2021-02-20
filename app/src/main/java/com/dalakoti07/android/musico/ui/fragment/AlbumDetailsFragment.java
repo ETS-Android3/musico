@@ -125,10 +125,15 @@ public class AlbumDetailsFragment extends Fragment implements SongTrackAdapter.c
             binding.mainContent.chipGroup.addView(chip,index);
             index++;
         }
-        binding.mainContent.tvArtistName.setText(albumDetailsResponse.getAlbum().getArtist());
-        binding.mainContent.tvPublishedOnVal.setText(albumDetailsResponse.getAlbum().getWiki().getPublished());
-        binding.mainContent.tvSummary.setText(albumDetailsResponse.getAlbum().getWiki().getSummary());
-        adapter.addTracksData((ArrayList<TrackModel>) albumDetailsResponse.getAlbum().getTracks().getTrack());
+        try{
+            adapter.addTracksData((ArrayList<TrackModel>) albumDetailsResponse.getAlbum().getTracks().getTrack());
+            binding.mainContent.tvArtistName.setText(albumDetailsResponse.getAlbum().getArtist());
+            binding.mainContent.tvSummary.setText(albumDetailsResponse.getAlbum().getWiki().getSummary());
+            binding.mainContent.tvPublishedOnVal.setText(albumDetailsResponse.getAlbum().getWiki().getPublished());
+        }catch (Exception e){
+            Timber.d("error occurred: "+e.getLocalizedMessage()+" and stack trace ");
+            e.printStackTrace();
+        }
     }
 
     private void chipClicked(View v) {

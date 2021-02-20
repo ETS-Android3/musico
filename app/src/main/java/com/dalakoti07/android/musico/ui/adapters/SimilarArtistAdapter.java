@@ -19,7 +19,7 @@ public class SimilarArtistAdapter extends RecyclerView.Adapter<SimilarArtistAdap
     private ArrayList<ArtistModel> artistModelArrayList= new ArrayList<>();
 
     public interface cardItemListener{
-        void cardItemClicked(ArtistModel artist);
+        void artistCardItemClicked(ArtistModel artist);
     }
     private cardItemListener listener;
 
@@ -66,7 +66,7 @@ public class SimilarArtistAdapter extends RecyclerView.Adapter<SimilarArtistAdap
                 default:index=0;
             }
             rvSimilarArtistBinding.getRoot().setOnClickListener(v->{
-                listener.cardItemClicked(artist);
+                listener.artistCardItemClicked(artist);
             });
             Glide.with(rvSimilarArtistBinding.getRoot())
                     .load("")
