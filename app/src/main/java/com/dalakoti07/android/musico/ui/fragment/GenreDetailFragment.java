@@ -39,8 +39,9 @@ public class GenreDetailFragment extends Fragment {
     private FragmentGenreDetailBinding binding;
     private NavController navController;
     public static String currentGenre;
+
     public GenreDetailFragment() {
-        // Required empty public constructor
+
     }
 
     //todo collapse the summary when we are scrolling genres, albums, items down
@@ -94,20 +95,18 @@ public class GenreDetailFragment extends Fragment {
         adapter.addFragment(albumsListFragment,"Albums");
         adapter.addFragment(artistListFragment,"Artists");
         adapter.addFragment(tracksListFragment,"Tracks");
-        binding.tvDescription.setMovementMethod(new ScrollingMovementMethod());
         binding.toolbar.setTitle(currentGenre.toUpperCase());
         binding.toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
         binding.toolbar.setNavigationOnClickListener(v->{
             navController.navigateUp();
         });
         viewModel.getMusicWiki(currentGenre).observe(getViewLifecycleOwner(), musicTag -> {
-            binding.progressBar.setVisibility(View.GONE);
-            binding.tvGenreName.setText(musicTag.getName().toUpperCase());
+            //binding.progressBar.setVisibility(View.GONE);
             binding.tvDescription.setText(musicTag.getWiki().getSummary());
         });
         viewModel.getErrorData().observe(getViewLifecycleOwner(), s -> {
             Toasty.error(context,s,Toasty.LENGTH_LONG,false).show();
-            binding.progressBar.setVisibility(View.GONE);
+            //binding.progressBar.setVisibility(View.GONE);
         });
 
         binding.viewPager.setAdapter(adapter);
