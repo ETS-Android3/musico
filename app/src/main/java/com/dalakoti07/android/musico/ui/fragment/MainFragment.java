@@ -96,6 +96,7 @@ public class MainFragment extends Fragment implements GenreAdapter.genreCardClic
             splitTheDataIntoTwoHalfsAndNotify(songGenres);
         });
         viewModel.getErrorMessage().observe(getViewLifecycleOwner(), s -> {
+            mainBinding.rootView.setVisibility(View.GONE);
             mainBinding.progressBar.setVisibility(View.GONE);
             mainBinding.errorLayout.setVisibility(View.VISIBLE);
             mainBinding.errorMsg.setText(s);

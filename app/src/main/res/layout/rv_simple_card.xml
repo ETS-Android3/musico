@@ -8,9 +8,15 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <FrameLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="150dp">
+
+        <View
+            android:id="@+id/iv_gradient"
+            android:visibility="visible"
+            android:background="@drawable/genre_gradient"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"/>
 
         <ImageView
             android:id="@+id/iv_item"
@@ -31,7 +37,7 @@
                 android:id="@+id/tv_upper"
                 android:layout_gravity="center"
                 android:textStyle="bold"
-                android:textSize="@dimen/small_text_size"
+                android:textSize="@dimen/smaller_text_size"
                 tools:text="Singer is good"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
@@ -40,7 +46,7 @@
                 android:maxLines="1"
                 android:id="@+id/tv_lower"
                 android:layout_gravity="center"
-                android:textSize="@dimen/small_text_size"
+                android:textSize="@dimen/smaller_text_size"
                 tools:text="Album"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
