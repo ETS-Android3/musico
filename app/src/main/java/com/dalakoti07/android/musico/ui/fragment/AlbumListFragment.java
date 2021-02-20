@@ -55,7 +55,6 @@ public class AlbumListFragment extends Fragment implements CommonListAdapter.Car
         }
     }
 
-    @Inject
     public AlbumListFragment(){
         Timber.d("created album list fragment ");
     }
@@ -74,7 +73,8 @@ public class AlbumListFragment extends Fragment implements CommonListAdapter.Car
         navController= NavHostFragment.findNavController(this);
         adapter=new CommonListAdapter(CommonListAdapter.ViewType.Albums,this);
         binding.rvListItems.setAdapter(adapter);
-        viewModel.getAlbumsList(GenreDetailFragment.currentGenre).observe(getViewLifecycleOwner(), new Observer<List<AlbumModel>>() {
+        String currentGenre=getArguments().getString(Constants.genreName);
+        viewModel.getAlbumsList(currentGenre).observe(getViewLifecycleOwner(), new Observer<List<AlbumModel>>() {
             @Override
             public void onChanged(List<AlbumModel> albumModels) {
                 adapter.addAlbumData((ArrayList<AlbumModel>) albumModels);

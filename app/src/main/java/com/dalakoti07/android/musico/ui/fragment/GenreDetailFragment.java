@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
+import android.provider.SyncStateContract;
 import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,13 +39,12 @@ public class GenreDetailFragment extends Fragment {
     public static FragmentComponent fragmentComponent;
     private FragmentGenreDetailBinding binding;
     private NavController navController;
-    public static String currentGenre;
+    public String currentGenre;
 
     public GenreDetailFragment() {
 
     }
 
-    //todo collapse the summary when we are scrolling genres, albums, items down
     Context context;
 
     @Inject
@@ -52,13 +52,8 @@ public class GenreDetailFragment extends Fragment {
 
     private GenreDetailsViewModel viewModel;
 
-    @Inject
     AlbumListFragment albumsListFragment;
-
-    @Inject
     ArtistListFragment artistListFragment;
-
-    @Inject
     TracksListFragment tracksListFragment;
 
     @Override
@@ -92,6 +87,14 @@ public class GenreDetailFragment extends Fragment {
         navController= NavHostFragment.findNavController(this);
         viewModel= ViewModelProviders.of(this,viewModelFactory).get(GenreDetailsViewModel.class);
         GenreTabAdapter adapter=new GenreTabAdapter(getChildFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+        Bundle bundle= new Bundle();
+        bundle.putString(Constants.genreName,currentGenre);
+        albumsListFragment= new AlbumListFragment();
+        albumsListFragment.setArguments(bundle);
+        artistListFragment= new ArtistListFragment();
+        artistListFragment.setArguments(bundle);
+        tracksListFragment= new TracksListFragment();
+        tracksListFragment.setArguments(bundle);
         adapter.addFragment(albumsListFragment,"Albums");
         adapter.addFragment(artistListFragment,"Artists");
         adapter.addFragment(tracksListFragment,"Tracks");

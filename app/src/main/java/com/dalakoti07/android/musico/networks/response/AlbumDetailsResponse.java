@@ -57,7 +57,7 @@ public class AlbumDetailsResponse {
 
         @SerializedName("tags")
         @Expose
-        private MusicTags tags;
+        private ArtistModel.MusicTagsWrapper tags;
 
         @SerializedName("wiki")
         @Expose
@@ -127,11 +127,11 @@ public class AlbumDetailsResponse {
             this.tracks = tracks;
         }
 
-        public MusicTags getTags() {
+        public ArtistModel.MusicTagsWrapper getTags() {
             return tags;
         }
 
-        public void setTags(MusicTags tags) {
+        public void setTags(ArtistModel.MusicTagsWrapper tags) {
             this.tags = tags;
         }
 

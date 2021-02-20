@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import javax.inject.Inject;
 
@@ -24,16 +25,21 @@ import com.dalakoti07.android.musico.databinding.FragmentAlbumListBinding;
 import com.dalakoti07.android.musico.di.qualifier.ActivityContext;
 import com.dalakoti07.android.musico.ui.activity.MainActivity;
 import com.dalakoti07.android.musico.ui.adapters.CommonListAdapter;
+import com.dalakoti07.android.musico.ui.adapters.SongTrackAdapter;
+import com.dalakoti07.android.musico.utils.ChromeCustomTabs;
+import com.dalakoti07.android.musico.utils.Constants;
 import com.dalakoti07.android.musico.viewmodels.SharedListViewModel;
 import com.dalakoti07.android.musico.viewmodels.ViewModelProviderFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class TracksListFragment extends Fragment implements CommonListAdapter.CardClickListener{
+public class TracksListFragment extends Fragment implements SongTrackAdapter.cardItemListener{
     //reusing the same layout file
     private FragmentAlbumListBinding binding;
-    private CommonListAdapter adapter;
+    private SongTrackAdapter adapter;
+    private ChromeCustomTabs chromeTab;
+
     Context context;
 
     @Inject
@@ -51,7 +57,6 @@ public class TracksListFragment extends Fragment implements CommonListAdapter.Ca
         }
     }
 
-    @Inject
     public TracksListFragment(){
         Timber.d("created tracks list fragment ");
     }
@@ -67,10 +72,12 @@ public class TracksListFragment extends Fragment implements CommonListAdapter.Ca
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         viewModel= ViewModelProviders.of(getParentFragment(),viewModelFactory).get(SharedListViewModel.class);
-        adapter=new CommonListAdapter(CommonListAdapter.ViewType.Tracks,this);
+        adapter=new SongTrackAdapter(this);
+        chromeTab = new ChromeCustomTabs(context);
         binding.rvListItems.setAdapter(adapter);
-
-        viewModel.getTheTracks(GenreDetailFragment.currentGenre).observe(getViewLifecycleOwner(), new Observer<List<TrackModel>>() {
+        binding.rvListItems.setLayoutManager(new LinearLayoutManager(context));
+        String currentGenre=getArguments().getString(Constants.genreName);
+        viewModel.getTheTracks(currentGenre).observe(getViewLifecycleOwner(), new Observer<List<TrackModel>>() {
             @Override
             public void onChanged(List<TrackModel> artistModels) {
                 Timber.d("artists "+artistModels.size()+" fetched from server");
@@ -92,11 +99,12 @@ public class TracksListFragment extends Fragment implements CommonListAdapter.Ca
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        chromeTab.destroy();
         binding=null;
     }
 
     @Override
-    public void cardClicked(UIData uiElementClicked) {
-
+    public void cardItemClicked(TrackModel track) {
+        chromeTab.launchUrl(track.getUrl());
     }
 }

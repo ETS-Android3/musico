@@ -57,7 +57,6 @@ public class ArtistListFragment extends Fragment implements CommonListAdapter.Ca
         }
     }
 
-    @Inject
     public ArtistListFragment(){
         Timber.d("created artist list fragment ");
     }
@@ -76,8 +75,8 @@ public class ArtistListFragment extends Fragment implements CommonListAdapter.Ca
         navController= NavHostFragment.findNavController(this);
         adapter=new CommonListAdapter(CommonListAdapter.ViewType.Artist,this);
         binding.rvListItems.setAdapter(adapter);
-
-        viewModel.getArtists(GenreDetailFragment.currentGenre).observe(getViewLifecycleOwner(), new Observer<List<ArtistModel>>() {
+        String currentGenre=getArguments().getString(Constants.genreName);
+        viewModel.getArtists(currentGenre).observe(getViewLifecycleOwner(), new Observer<List<ArtistModel>>() {
             @Override
             public void onChanged(List<ArtistModel> artistModels) {
                 Timber.d("artists "+artistModels.size()+" fetched from server");

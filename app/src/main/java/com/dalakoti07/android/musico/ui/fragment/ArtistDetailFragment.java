@@ -124,7 +124,7 @@ public class ArtistDetailFragment extends Fragment implements SimilarArtistAdapt
         for(AlbumDetailsResponse.MusicTags tag: artistDetailsResponse.getArtist().getTags().getPublished()){
             Chip chip=new Chip(context);
             chip.setText(tag.getName());
-            chip.setTag(tag.getUrl());
+            chip.setTag(tag.getName());
             chip.setOnClickListener(this::chipClicked);
             binding.contentWrapper.chipGroup.addView(chip,index);
             index++;
@@ -134,8 +134,10 @@ public class ArtistDetailFragment extends Fragment implements SimilarArtistAdapt
     }
 
     private void chipClicked(View v) {
-        String url=(String)v.getTag();
-        chromeTab.launchUrl(url);
+        String genreName=(String)v.getTag();
+        Bundle bundle= new Bundle();
+        bundle.putString(Constants.genreName,genreName);
+        navController.navigate(R.id.action_artistDetailFragment_to_genreDetailFragment,bundle);
     }
 
     @Override

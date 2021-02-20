@@ -42,10 +42,18 @@
         android:id="@+id/albumDetailsFragment"
         android:name="com.dalakoti07.android.musico.ui.fragment.AlbumDetailsFragment"
         android:label="fragment_album_details"
-        tools:layout="@layout/fragment_album_details" />
+        tools:layout="@layout/fragment_album_details" >
+        <action
+            android:id="@+id/action_albumDetailsFragment_to_genreDetailFragment"
+            app:destination="@id/genreDetailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/artistDetailFragment"
         android:name="com.dalakoti07.android.musico.ui.fragment.ArtistDetailFragment"
         android:label="fragment_artist_detail"
-        tools:layout="@layout/fragment_artist_detail" />
+        tools:layout="@layout/fragment_artist_detail" >
+        <action
+            android:id="@+id/action_artistDetailFragment_to_genreDetailFragment"
+            app:destination="@id/genreDetailFragment" />
+    </fragment>
 </navigation>

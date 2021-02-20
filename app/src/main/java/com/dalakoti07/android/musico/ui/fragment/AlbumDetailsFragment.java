@@ -28,6 +28,7 @@ import com.dalakoti07.android.musico.utils.ChromeCustomTabs;
 import com.dalakoti07.android.musico.utils.Constants;
 import com.dalakoti07.android.musico.viewmodels.AlbumDetailsViewModel;
 import com.dalakoti07.android.musico.viewmodels.ViewModelProviderFactory;
+import com.google.android.material.chip.Chip;
 
 import java.util.ArrayList;
 
@@ -115,10 +116,26 @@ public class AlbumDetailsFragment extends Fragment implements SongTrackAdapter.c
         Glide.with(binding.ivAlbumCover.getContext())
                 .load(albumDetailsResponse.getAlbum().getImage().get(index).getText()).fitCenter()
                 .into(binding.ivAlbumCover);
+        index=0;
+        for(AlbumDetailsResponse.MusicTags tag: albumDetailsResponse.getAlbum().getTags().getPublished()){
+            Chip chip=new Chip(context);
+            chip.setText(tag.getName());
+            chip.setTag(tag.getName());
+            chip.setOnClickListener(this::chipClicked);
+            binding.mainContent.chipGroup.addView(chip,index);
+            index++;
+        }
         binding.mainContent.tvArtistName.setText(albumDetailsResponse.getAlbum().getArtist());
         binding.mainContent.tvPublishedOnVal.setText(albumDetailsResponse.getAlbum().getWiki().getPublished());
         binding.mainContent.tvSummary.setText(albumDetailsResponse.getAlbum().getWiki().getSummary());
         adapter.addTracksData((ArrayList<TrackModel>) albumDetailsResponse.getAlbum().getTracks().getTrack());
+    }
+
+    private void chipClicked(View v) {
+        String genre=(String)v.getTag();
+        Bundle bundle= new Bundle();
+        bundle.putString(Constants.genreName,genre);
+        navController.navigate(R.id.action_albumDetailsFragment_to_genreDetailFragment,bundle);
     }
 
     @Override
@@ -130,7 +147,6 @@ public class AlbumDetailsFragment extends Fragment implements SongTrackAdapter.c
 
     @Override
     public void cardItemClicked(TrackModel track) {
-        Timber.d("album track clicked");
         chromeTab.launchUrl(track.getUrl());
     }
 }
