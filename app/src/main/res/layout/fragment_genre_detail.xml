@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><!--todo make it like artist fragment instaed of ImageView put textView-->
+<?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -10,8 +10,8 @@
     <androidx.viewpager.widget.ViewPager
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:id="@+id/view_pager"
+        android:layout_marginTop="?actionBarSize"
         android:layout_width="match_parent"
-        android:layout_marginBottom="?actionBarSize"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -21,6 +21,8 @@
     <com.google.android.material.tabs.TabLayout
         android:layout_gravity="bottom"
         android:id="@+id/tab_layout"
+        app:layout_anchorGravity="bottom"
+        app:layout_anchor="@+id/appbar"
         app:tabMode="fixed"
         app:tabGravity="fill"
         android:layout_width="match_parent"
