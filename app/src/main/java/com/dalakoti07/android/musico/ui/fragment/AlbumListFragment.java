@@ -39,6 +39,8 @@ public class AlbumListFragment extends Fragment implements CommonListAdapter.Car
     private CommonListAdapter adapter;
     private NavController navController;
 
+    @ActivityContext
+    @Inject
     Context context;
 
     @Inject
@@ -49,7 +51,6 @@ public class AlbumListFragment extends Fragment implements CommonListAdapter.Car
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        this.context=context;
         if(getActivity()!=null){
             GenreDetailFragment.fragmentComponent.inject(this);
         }

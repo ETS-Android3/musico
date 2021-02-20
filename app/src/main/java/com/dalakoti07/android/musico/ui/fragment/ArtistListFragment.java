@@ -41,6 +41,8 @@ public class ArtistListFragment extends Fragment implements CommonListAdapter.Ca
     private CommonListAdapter adapter;
     private NavController navController;
 
+    @ActivityContext
+    @Inject
     Context context;
 
     @Inject
@@ -51,7 +53,6 @@ public class ArtistListFragment extends Fragment implements CommonListAdapter.Ca
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        this.context=context;
         if(getActivity()!=null){
             GenreDetailFragment.fragmentComponent.inject(this);
         }

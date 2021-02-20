@@ -40,6 +40,8 @@ public class TracksListFragment extends Fragment implements SongTrackAdapter.car
     private SongTrackAdapter adapter;
     private ChromeCustomTabs chromeTab;
 
+    @ActivityContext
+    @Inject
     Context context;
 
     @Inject
@@ -50,7 +52,6 @@ public class TracksListFragment extends Fragment implements SongTrackAdapter.car
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        this.context=context;
         if(getActivity()!=null){
             //((MainActivity)getActivity()).mainComponent.inject(this);
             GenreDetailFragment.fragmentComponent.inject(this);

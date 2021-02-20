@@ -22,6 +22,7 @@ import com.dalakoti07.android.musico.data.models.AlbumModel;
 import com.dalakoti07.android.musico.data.models.ArtistModel;
 import com.dalakoti07.android.musico.data.models.TrackModel;
 import com.dalakoti07.android.musico.databinding.FragmentArtistDetailBinding;
+import com.dalakoti07.android.musico.di.qualifier.ActivityContext;
 import com.dalakoti07.android.musico.networks.response.AlbumDetailsResponse;
 import com.dalakoti07.android.musico.networks.response.ArtistDetailsResponse;
 import com.dalakoti07.android.musico.networks.response.GenreDetailsResponse;
@@ -56,6 +57,8 @@ public class ArtistDetailFragment extends Fragment implements SimilarArtistAdapt
     private String artistName;
     private ChromeCustomTabs chromeTab;
 
+    @ActivityContext
+    @Inject
     Context context;
 
     @Inject
@@ -69,7 +72,6 @@ public class ArtistDetailFragment extends Fragment implements SimilarArtistAdapt
 
     @Override
     public void onAttach(@NonNull Context context) {
-        this.context = context;
         super.onAttach(context);
         if (getActivity() != null) {
             ((MainActivity) getActivity()).mainComponent.inject(this);

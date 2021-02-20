@@ -45,6 +45,8 @@ public class GenreDetailFragment extends Fragment {
 
     }
 
+    @ActivityContext
+    @Inject
     Context context;
 
     @Inject
@@ -58,11 +60,10 @@ public class GenreDetailFragment extends Fragment {
 
     @Override
     public void onAttach(@NonNull Context context) {
-        this.context=context;
         super.onAttach(context);
         if(getActivity()!=null){
              fragmentComponent= MusicApplication.get(getActivity()).getApplicationComponent().fragmentComponent()
-                     .create();
+                     .create(context);
              fragmentComponent.inject(this);
         }
     }

@@ -20,6 +20,7 @@ import com.dalakoti07.android.musico.R;
 import com.dalakoti07.android.musico.data.models.TrackModel;
 import com.dalakoti07.android.musico.data.models.UIData;
 import com.dalakoti07.android.musico.databinding.FragmentAlbumDetailsBinding;
+import com.dalakoti07.android.musico.di.qualifier.ActivityContext;
 import com.dalakoti07.android.musico.networks.response.AlbumDetailsResponse;
 import com.dalakoti07.android.musico.ui.activity.MainActivity;
 import com.dalakoti07.android.musico.ui.adapters.CommonListAdapter;
@@ -44,6 +45,8 @@ public class AlbumDetailsFragment extends Fragment implements SongTrackAdapter.c
     private ChromeCustomTabs chromeTab;
 
     //todo add shimmer
+    @ActivityContext
+    @Inject
     Context context;
 
     @Inject
@@ -57,7 +60,6 @@ public class AlbumDetailsFragment extends Fragment implements SongTrackAdapter.c
 
     @Override
     public void onAttach(@NonNull Context context) {
-        this.context = context;
         super.onAttach(context);
         if (getActivity() != null) {
             ((MainActivity) getActivity()).mainComponent.inject(this);

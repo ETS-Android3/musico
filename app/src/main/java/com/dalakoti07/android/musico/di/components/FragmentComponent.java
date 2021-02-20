@@ -27,12 +27,11 @@ public interface FragmentComponent {
 
     @Subcomponent.Factory
     interface Factory{
-        FragmentComponent create();
+        FragmentComponent create(@BindsInstance @ActivityContext Context context);
     }
 
     void inject(GenreDetailFragment fragment);
     void inject(AlbumListFragment fragment);
     void inject(ArtistListFragment fragment);
     void inject(TracksListFragment fragment);
-    void inject(AlbumDetailsFragment fragment);
 }

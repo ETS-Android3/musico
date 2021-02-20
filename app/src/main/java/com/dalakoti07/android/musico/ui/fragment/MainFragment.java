@@ -43,6 +43,8 @@ public class MainFragment extends Fragment implements GenreAdapter.genreCardClic
     private ArrayList<SongGenre> topFinding= new ArrayList<>();
     private ArrayList<SongGenre> allGenres= new ArrayList<>();
 
+    @ActivityContext
+    @Inject
     Context context;
 
     @Inject
@@ -56,7 +58,6 @@ public class MainFragment extends Fragment implements GenreAdapter.genreCardClic
 
     @Override
     public void onAttach(@NonNull Context context) {
-        this.context=context;
         super.onAttach(context);
         if(getActivity()!=null){
             ((MainActivity)getActivity()).mainComponent.inject(this);
@@ -96,7 +97,10 @@ public class MainFragment extends Fragment implements GenreAdapter.genreCardClic
             splitTheDataIntoTwoHalfsAndNotify(songGenres);
         });
         viewModel.getErrorMessage().observe(getViewLifecycleOwner(), s -> {
-            mainBinding.rootView.setVisibility(View.GONE);
+            mainBinding.ivToggleAllGenre.setVisibility(View.GONE);
+            mainBinding.ivToggleTops.setVisibility(View.GONE);
+            mainBinding.tvGreetings.setVisibility(View.GONE);
+            mainBinding.tvExplore.setVisibility(View.GONE);
             mainBinding.progressBar.setVisibility(View.GONE);
             mainBinding.errorLayout.setVisibility(View.VISIBLE);
             mainBinding.errorMsg.setText(s);
