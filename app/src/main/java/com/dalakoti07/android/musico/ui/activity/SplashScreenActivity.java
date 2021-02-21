@@ -20,7 +20,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     private final static int TIME_OUT_TIME=3000;
     private Animation topAnimation,bottomAnimation;
     private ActivitySplashScreenBinding binding;
-    //todo add in manifest
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

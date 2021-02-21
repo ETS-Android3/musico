@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel;
 import com.dalakoti07.android.musico.data.models.AlbumModel;
 import com.dalakoti07.android.musico.data.models.ArtistModel;
 import com.dalakoti07.android.musico.data.models.TrackModel;
+import com.dalakoti07.android.musico.data.repositories.GenreRepository;
 import com.dalakoti07.android.musico.di.scopes.ActivityScope;
 import com.dalakoti07.android.musico.di.scopes.FragmentScope;
 import com.dalakoti07.android.musico.networks.MusicApiClient;
@@ -29,20 +30,20 @@ import timber.log.Timber;
  * This viewModel is shared by AlbumListFragment,ArtistListFragment,TracksListFragment
  */
 public class SharedListViewModel extends ViewModel {
-    private MutableLiveData<List<AlbumModel>> albumArrayList;
-    private final MutableLiveData<String> albumErrorMessage= new MutableLiveData<>();
+    private LiveData<List<AlbumModel>> albumArrayList;
+    private LiveData<String> albumErrorMessage;
 
-    private MutableLiveData<List<ArtistModel>> artistArrayList;
-    private MutableLiveData<String> artistErrorMessage= new MutableLiveData<>();
+    private LiveData<List<ArtistModel>> artistArrayList;
+    private LiveData<String> artistErrorMessage;
 
-    private MutableLiveData<List<TrackModel>> trackArrayList;
-    private MutableLiveData<String> tracksErrorMessage= new MutableLiveData<>();
+    private LiveData<List<TrackModel>> trackArrayList;
+    private LiveData<String> tracksErrorMessage;
+
+    public GenreRepository repository;
 
     @Inject
-    public MusicApiClient apiInterface;
-
-    @Inject
-    public SharedListViewModel(){
+    public SharedListViewModel(GenreRepository repository){
+        this.repository=repository;
         Timber.d("shared list viewmodel created ");
     }
 
@@ -50,102 +51,43 @@ public class SharedListViewModel extends ViewModel {
         if(albumArrayList!=null)
             return albumArrayList;
         else{
-            return fetchAlbumsFromServer(genre);
+            return albumArrayList= repository.fetchAlbumsFromServer(genre);
         }
     }
 
-    private LiveData<List<AlbumModel>> fetchAlbumsFromServer(String genre) {
-        albumArrayList=new MutableLiveData<>();
-        apiInterface.getTopAlbumsInGenre("tag.gettopalbums",genre).enqueue(new Callback<GenreAlbumsResponse>() {
-            @Override
-            public void onResponse(Call<GenreAlbumsResponse> call, Response<GenreAlbumsResponse> response) {
-                if(response.isSuccessful()){
-                    albumArrayList.setValue(response.body().getAlbums().getAlbum());
-                }else{
-                    albumErrorMessage.setValue("Code:"+response.code()+" msg: "+response.message());
-                    Timber.d("Code:"+response.code()+" msg: "+response.message());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<GenreAlbumsResponse> call, Throwable t) {
-                albumErrorMessage.setValue("Failed: "+t.getLocalizedMessage());
-                Timber.d("Failed: %s", t.getLocalizedMessage());
-            }
-        });
-        return albumArrayList;
-    }
-
     public LiveData<String> getAlbumsError(){
-        return albumErrorMessage;
+        if(albumErrorMessage==null)
+            return albumErrorMessage=repository.getAlbumsError();
+        else
+            return albumErrorMessage;
     }
-
 
     public LiveData<List<ArtistModel>> getArtists(String genre){
         if(artistArrayList==null)
-            return fetchArtistsFromServer(genre);
+            return artistArrayList=repository.fetchArtistsFromServer(genre);
         else
             return artistArrayList;
     }
 
-    private LiveData<List<ArtistModel>> fetchArtistsFromServer(String genre){
-        artistArrayList=new MutableLiveData<>();
-        apiInterface.getTopArtistInGenre("tag.gettopartists",genre).enqueue(new Callback<AllArtistsResponse>() {
-            @Override
-            public void onResponse(Call<AllArtistsResponse> call, Response<AllArtistsResponse> response) {
-                if(response.isSuccessful()){
-                    artistArrayList.setValue(response.body().getTopartists().getArtist());
-                }else{
-                    artistErrorMessage.setValue("Code:"+response.code()+" msg: "+response.message());
-                    Timber.d("Code:"+response.code()+" msg: "+response.message());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<AllArtistsResponse> call, Throwable t) {
-                artistErrorMessage.setValue("Failed: "+t.getLocalizedMessage());
-                Timber.d("Failed: %s", t.getLocalizedMessage());
-            }
-        });
-        return artistArrayList;
-    }
-
     public LiveData<String> getArtistErrors(){
-        return artistErrorMessage;
+        if(artistErrorMessage==null)
+            return artistErrorMessage=repository.getArtistErrors();
+        else
+            return artistErrorMessage;
     }
 
     public LiveData<List<TrackModel>> getTheTracks(String genre){
         if(trackArrayList==null)
-            return fetchTracksFromServer(genre);
+            return trackArrayList= repository.fetchTracksFromServer(genre);
         else
             return trackArrayList;
     }
 
     public LiveData<String> getTheTracksError(){
-        return tracksErrorMessage;
+        if(tracksErrorMessage==null)
+            return tracksErrorMessage=repository.getTheTracksError();
+        else
+            return tracksErrorMessage;
     }
-
-    private LiveData<List<TrackModel>> fetchTracksFromServer(String genre) {
-        trackArrayList= new MutableLiveData<>();
-        apiInterface.getTopTracksInGenre("tag.gettoptracks",genre).enqueue(new Callback<AllTracksResponse>() {
-            @Override
-            public void onResponse(Call<AllTracksResponse> call, Response<AllTracksResponse> response) {
-                if(response.isSuccessful()){
-                    trackArrayList.setValue(response.body().getTracks().getTrack());
-                }else{
-                    tracksErrorMessage.setValue("Code:"+response.code()+" msg: "+response.message());
-                    Timber.d("Code:"+response.code()+" msg: "+response.message());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<AllTracksResponse> call, Throwable t) {
-                tracksErrorMessage.setValue("Failed: "+t.getLocalizedMessage());
-                Timber.d("Failed: %s", t.getLocalizedMessage());
-            }
-        });
-        return trackArrayList;
-    }
-
 
 }

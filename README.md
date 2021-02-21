@@ -1,6 +1,6 @@
 # Music Wiki
 
-<img src="/screenshots/icon.png" height="200px"/> <br>
+<img src="/screenshots/icons.png" height="200px"/> <br>
 MusicWiki is an unofficial Last.fm app that contains information about different music genres, the albums, artists and tracks listed under the genre.
 
 
@@ -65,12 +65,22 @@ All the android new Best Practises have been implemented:
 - Clean and simple UI
 - Modularized App with dagger
 
+## Architecture followed
+
+![ArchDiagram1](https://preview.redd.it/g93q43pit3621.png?width=703&format=png&auto=webp&s=6b6749b31c13c230b123991cba04ceb2433c80be)
+
+**Expect Room (Local storage) the architecture of the app is inspired by above diagram**
+
+<br>
+
+## Libraries Used
+-
+
 
 ##### Decisions
 
-1. Since Offline working of the application was not primary requirement, thus I had decided not to implement disk cache with Room,
-and hence we have a single source of data, and as a result **no repository layer** was created. Creating a repository with single won't have been much useful
-ViewModel directly is making api call and interacting with model layer and deferring complexity from UI layer.
+1. For a testable android application we must have class speration of concern and thats is the reason why application follows complete MVVM architecture with
+View, ViewModels ,Repository and model class.
 
 2. Decision of not using rx-java as it had not much use-case to server in present app, using rx-java would have been much beneficial in some
 core problem like search functionality and profile details call for each person
@@ -98,9 +108,10 @@ avatar it can be found in CommonUIUtils.java
 catch block (can be found in ArtistDetailsFrag and AlbumDetailsFrag),
 and that would prevent the application from crash and silently it would fail.
 
+- Assumption that apiKey would be needed in each and every REST call, thus apiKey is injected by retrofit Interceptor on each api call.
+
 ##### Testing
 - Unit tests for CommonUIUtils and Timely greeting can be found in test directory
--
-
+- Unit Tests for viewModels (HomeScreenViewModel, can be found in test directory) using test-doubles for Repository and checking its integration with repository
 
 

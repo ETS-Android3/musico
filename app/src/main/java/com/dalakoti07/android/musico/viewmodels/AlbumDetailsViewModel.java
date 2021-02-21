@@ -19,6 +19,7 @@ import timber.log.Timber;
 public class AlbumDetailsViewModel extends ViewModel {
     private LiveData<AlbumDetailsResponse> albumDetailsResponseMutableLiveData;
     private MainRepositoryContract mainRepository;
+    private LiveData<String> albumDetailsApiError;
 
     @Inject
     public AlbumDetailsViewModel(MainRepositoryContract mainRepository){
@@ -27,7 +28,9 @@ public class AlbumDetailsViewModel extends ViewModel {
     }
 
     public LiveData<String> getApiError() {
-        return mainRepository.getAlbumDetailsApiError();
+        if(albumDetailsApiError==null)
+            return albumDetailsApiError=mainRepository.getAlbumDetailsApiError();
+        return albumDetailsApiError;
     }
 
     public LiveData<AlbumDetailsResponse> getAlbumDetails(String artist, String album){

@@ -21,10 +21,10 @@ import timber.log.Timber;
 @Singleton
 public class MainRepository implements MainRepositoryContract {
     private MutableLiveData<ArrayList<SongGenre>> allSongGenres;
-    private final MutableLiveData<String> allGenreErrorMessage= new MutableLiveData<>();
+    private MutableLiveData<String> allGenreErrorMessage;
 
     private MutableLiveData<AlbumDetailsResponse> albumDetailsResponseMutableLiveData;
-    private MutableLiveData<String> albumDetailsApiError=new MutableLiveData<>();
+    private MutableLiveData<String> albumDetailsApiError;
 
     private MusicApiClient apiClient;
 
@@ -60,6 +60,7 @@ public class MainRepository implements MainRepositoryContract {
 
     @Override
     public LiveData<String> getGenreErrorMessage() {
+        allGenreErrorMessage=new MutableLiveData<>();
         return allGenreErrorMessage;
     }
 
@@ -88,6 +89,7 @@ public class MainRepository implements MainRepositoryContract {
 
     @Override
     public LiveData<String> getAlbumDetailsApiError() {
+        albumDetailsApiError=new MutableLiveData<>();
         return albumDetailsApiError;
     }
 

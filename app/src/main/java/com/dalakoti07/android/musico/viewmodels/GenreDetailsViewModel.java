@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.dalakoti07.android.musico.data.repositories.GenreRepository;
 import com.dalakoti07.android.musico.networks.MusicApiClient;
 import com.dalakoti07.android.musico.networks.response.GenreDetailsResponse;
 
@@ -18,48 +19,29 @@ import timber.log.Timber;
 
 public class GenreDetailsViewModel extends ViewModel {
 
-    @Inject
-    public MusicApiClient apiInterface;
+    private GenreRepository repository;
 
     @Inject
-    public GenreDetailsViewModel(){
+    public GenreDetailsViewModel(GenreRepository repository){
+        this.repository=repository;
         Timber.d("genre details viewmodel created");
     }
 
-    private MutableLiveData<GenreDetailsResponse.MusicTag> musicWikiMutableLiveData;
-    private MutableLiveData<String> errorMessage= new MutableLiveData<>();
+    private LiveData<GenreDetailsResponse.MusicTag> musicWikiMutableLiveData;
+    private LiveData<String> errorMessage;
 
     public LiveData<GenreDetailsResponse.MusicTag> getMusicWiki(String genre){
         if(musicWikiMutableLiveData!=null)
             return musicWikiMutableLiveData;
         else{
-            return fetchMusicDetails(genre);
+            return musicWikiMutableLiveData= repository.fetchMusicDetails(genre);
         }
     }
 
     public LiveData<String> getErrorData(){
+        if(errorMessage==null)
+            return errorMessage= repository.getMusicWikiErrorData();
         return errorMessage;
     }
 
-    private LiveData<GenreDetailsResponse.MusicTag> fetchMusicDetails(String genre) {
-        musicWikiMutableLiveData=new MutableLiveData<>();
-        apiInterface.getGenreDetails("tag.getinfo",genre).enqueue(new Callback<GenreDetailsResponse>() {
-            @Override
-            public void onResponse(Call<GenreDetailsResponse> call, Response<GenreDetailsResponse> response) {
-                if(response.isSuccessful()){
-                    musicWikiMutableLiveData.setValue(response.body().getMusicTag());
-                }else{
-                    errorMessage.setValue("Code:"+response.code()+" msg: "+response.message());
-                    Timber.d("Code:"+response.code()+" msg: "+response.message());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<GenreDetailsResponse> call, Throwable t) {
-                errorMessage.setValue("Failed: "+t.getLocalizedMessage());
-                Timber.d("Failed: %s", t.getLocalizedMessage());
-            }
-        });
-        return musicWikiMutableLiveData;
-    }
 }

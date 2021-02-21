@@ -7,7 +7,7 @@ import static org.junit.Assert.*;
 
 public class TimelyGreetingsTest {
     static String goodMorningGreetings="Good Morning";
-    static String goodAfterNoonGreetings="Good After Noon";
+    static String goodAfterNoonGreetings="Good AfterNoon";
     static String goodEveningGreetings="Good Evening";
     static String dateTimeStamp=", 20/02/2021";
 

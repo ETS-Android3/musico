@@ -38,7 +38,7 @@ public class TimelyGreetings {
             // contains pm
             int hour=Integer.parseInt(dateTime.substring(0,2));
             if(hour==12 || hour<6)
-                return "Good After Noon";
+                return "Good AfterNoon";
             else
                 return "Good Evening";
         }

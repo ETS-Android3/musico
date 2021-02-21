@@ -1,6 +1,7 @@
 package com.dalakoti07.android.musico.viewmodels;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.dalakoti07.android.musico.data.models.SongGenre;
@@ -14,6 +15,7 @@ import timber.log.Timber;
 
 public class HomeScreenViewModel extends ViewModel {
     private LiveData<ArrayList<SongGenre>> allSongGenres;
+    private LiveData<String> allGenreErrorMessage;
 
     private MainRepositoryContract mainRepository;
 
@@ -32,7 +34,9 @@ public class HomeScreenViewModel extends ViewModel {
     }
 
     public LiveData<String> getErrorMessage(){
-        return mainRepository.getGenreErrorMessage();
+        if(allGenreErrorMessage==null)
+            return allGenreErrorMessage= mainRepository.getGenreErrorMessage();
+        return allGenreErrorMessage;
     }
 
 }
