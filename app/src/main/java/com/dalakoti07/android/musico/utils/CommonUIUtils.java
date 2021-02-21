@@ -25,10 +25,12 @@ public class CommonUIUtils {
     /**
      *
      * @param number in string
-     * @return String which is of format {x}K or {x}M where x is < 10000
+     * @return String which is of format {x}K or {x}M where x is < 1000
      */
     public static String getCountInThousandsOrMillions(String number){
         int intNum=Integer.parseInt(number);
+        if(intNum<1000)
+            return intNum+"";
         intNum=intNum/1000;
         if(intNum<1000)
             return intNum+"K";

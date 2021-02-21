@@ -27,7 +27,10 @@ import com.dalakoti07.android.musico.utils.TimelyGreetings;
 import com.dalakoti07.android.musico.viewmodels.HomeScreenViewModel;
 import com.dalakoti07.android.musico.viewmodels.ViewModelProviderFactory;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -75,7 +78,9 @@ public class MainFragment extends Fragment implements GenreAdapter.genreCardClic
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         navController= NavHostFragment.findNavController(this);
-        mainBinding.tvGreetings.setText(TimelyGreetings.getGreetings());
+        mainBinding.tvGreetings.setText(TimelyGreetings.getGreetings(
+                new SimpleDateFormat("KK:mm:ss a, dd/MM/yyyy", Locale.getDefault()).format(new Date())
+        ));
         viewModel= ViewModelProviders.of(getActivity(),viewModelFactory).get(HomeScreenViewModel.class);
         topFindingsGenreAdapter= new GenreAdapter(this);
         allGenreAdapter= new GenreAdapter(this);
