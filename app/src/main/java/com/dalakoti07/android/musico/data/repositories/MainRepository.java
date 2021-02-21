@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.dalakoti07.android.musico.data.models.SongGenre;
 import com.dalakoti07.android.musico.networks.MusicApiClient;
+import com.dalakoti07.android.musico.networks.response.AlbumDetailsResponse;
 import com.dalakoti07.android.musico.networks.response.AllGenreResponse;
 
 import java.util.ArrayList;
@@ -21,6 +22,9 @@ import timber.log.Timber;
 public class MainRepository implements MainRepositoryContract {
     private MutableLiveData<ArrayList<SongGenre>> allSongGenres;
     private final MutableLiveData<String> allGenreErrorMessage= new MutableLiveData<>();
+
+    private MutableLiveData<AlbumDetailsResponse> albumDetailsResponseMutableLiveData;
+    private MutableLiveData<String> albumDetailsApiError=new MutableLiveData<>();
 
     private MusicApiClient apiClient;
 
@@ -57,6 +61,34 @@ public class MainRepository implements MainRepositoryContract {
     @Override
     public LiveData<String> getGenreErrorMessage() {
         return allGenreErrorMessage;
+    }
+
+    @Override
+    public LiveData<AlbumDetailsResponse> fetchAlbumDetailsFromServer(String artist, String album) {
+        albumDetailsResponseMutableLiveData= new MutableLiveData<>();
+        apiClient.getAlbumDetails("album.getinfo",artist,album).enqueue(new Callback<AlbumDetailsResponse>() {
+            @Override
+            public void onResponse(Call<AlbumDetailsResponse> call, Response<AlbumDetailsResponse> response) {
+                if(response.isSuccessful()){
+                    albumDetailsResponseMutableLiveData.setValue(response.body());
+                }else{
+                    albumDetailsApiError.setValue("Code:"+response.code()+" msg: "+response.message());
+                    Timber.d("Code:"+response.code()+" msg: "+response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AlbumDetailsResponse> call, Throwable t) {
+                albumDetailsApiError.setValue("Failed: "+t.getLocalizedMessage());
+                Timber.d("Failed: %s", t.getLocalizedMessage());
+            }
+        });
+        return albumDetailsResponseMutableLiveData;
+    }
+
+    @Override
+    public LiveData<String> getAlbumDetailsApiError() {
+        return albumDetailsApiError;
     }
 
 }

@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.dalakoti07.android.musico.data.models.SongGenre;
 import com.dalakoti07.android.musico.data.repositories.MainRepositoryContract;
+import com.dalakoti07.android.musico.networks.response.AlbumDetailsResponse;
 
 import java.util.ArrayList;
 
@@ -32,5 +33,15 @@ public class FakeMainRepository implements MainRepositoryContract {
     @Override
     public LiveData<String> getGenreErrorMessage() {
         return genreApiError;
+    }
+
+    @Override
+    public LiveData<AlbumDetailsResponse> fetchAlbumDetailsFromServer(String artist, String album) {
+        return null;
+    }
+
+    @Override
+    public LiveData<String> getAlbumDetailsApiError() {
+        return null;
     }
 }
