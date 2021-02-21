@@ -25,7 +25,7 @@ To build and install the app in running emulator
 All the android new Best Practises have been implemented:
 
 - Android **navigational Component** for navigation between fragment and achieving a single activity based application
-- Simple **MVVM** architecture with deferring all complexities of UI to viewModel
+- **MVVM** architecture with deferring all complexities of UI to viewModel and repository.
 - Using **Dagger** for dependency Injection
 - Simplicity and easy design of the app (Inspired by Indicative UI provided )
 - Android View Binding to avoid monotonous findViewById call and run-time exceptions and crashes.
@@ -74,7 +74,12 @@ All the android new Best Practises have been implemented:
 <br>
 
 ## Libraries Used
--
+- **Retrofit** and OkHttp
+- **Glide** for Image
+- **Timber** for Logging
+- **Dagger** for dependency Injection
+- **JUnit** for Unit testing
+- **Truth** for Testing assertion
 
 
 ##### Decisions
