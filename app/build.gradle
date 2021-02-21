@@ -44,6 +44,8 @@ dependencies {
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    testImplementation "com.google.truth:truth:1.1.2"
+    testImplementation 'android.arch.core:core-testing:1.1.1'
 
     // navigational component
     def nav_version = "2.3.3"

@@ -44,4 +44,9 @@ public class SongGenre {
         this.reach = reach;
     }
 
+    public SongGenre(String name, Integer count, Integer reach) {
+        this.name = name;
+        this.count = count;
+        this.reach = reach;
+    }
 }

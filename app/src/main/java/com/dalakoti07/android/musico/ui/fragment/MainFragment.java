@@ -99,6 +99,11 @@ public class MainFragment extends Fragment implements GenreAdapter.genreCardClic
         });
         viewModel.getAllSongGenres().observe(getViewLifecycleOwner(), songGenres -> {
             mainBinding.progressBar.setVisibility(View.GONE);
+            mainBinding.errorLayout.setVisibility(View.GONE);
+            mainBinding.ivToggleAllGenre.setVisibility(View.VISIBLE);
+            mainBinding.ivToggleTops.setVisibility(View.VISIBLE);
+            mainBinding.tvGreetings.setVisibility(View.VISIBLE);
+            mainBinding.tvExplore.setVisibility(View.VISIBLE);
             splitTheDataIntoTwoHalfsAndNotify(songGenres);
         });
         viewModel.getErrorMessage().observe(getViewLifecycleOwner(), s -> {
