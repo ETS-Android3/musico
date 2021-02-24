@@ -26,6 +26,7 @@ import timber.log.Timber;
 @Module
 public class RetrofitModule {
     private final String APIKEY = "api_key";
+    private final String APIKEY_VALUE = "7c5701c72b926f5d1e5b209aadd3aedc";
     private final String FORMAT = "format";
     private final String FORMAT_VALUE = "json";
 
@@ -56,7 +57,7 @@ public class RetrofitModule {
                     public @NotNull Response intercept(@NotNull Chain chain) throws IOException {
                         Request.Builder originalRequest = chain.request().newBuilder();
                         HttpUrl originalHttpUrl=chain.request().url();
-                        HttpUrl newHttpUrl= originalHttpUrl.newBuilder().addQueryParameter(APIKEY, BuildConfig.API_KEY)
+                        HttpUrl newHttpUrl= originalHttpUrl.newBuilder().addQueryParameter(APIKEY, APIKEY_VALUE)
                                 .addQueryParameter(FORMAT,FORMAT_VALUE)
                                 .build();
                         originalRequest.url(newHttpUrl);
