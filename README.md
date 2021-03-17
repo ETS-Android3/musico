@@ -120,3 +120,6 @@ and that would prevent the application from crash and silently it would fail.
 - Unit Tests for viewModels (HomeScreenViewModel, can be found in test directory) using test-doubles for Repository and checking its integration with repository
 
 
+## Todo
+- [ ] Full end to end testing with mock data
+- [ ] Convert to kotlin
