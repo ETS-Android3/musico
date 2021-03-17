@@ -123,3 +123,4 @@ and that would prevent the application from crash and silently it would fail.
 ## Todo
 - [ ] Full end to end testing with mock data
 - [ ] Convert to kotlin
+- [ ] a generic response wrapper for handling data coming from server
