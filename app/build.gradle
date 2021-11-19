@@ -14,13 +14,30 @@ android {
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
+
+        archivesBaseName = "Musico-v$versionCode($versionName)"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    buildTypes {
+    signingConfigs {
         release {
+            storeFile file('../musico.jks')
+            storePassword 'musico'
+            keyAlias 'musico-key'
+            keyPassword 'musico'
+        }
+    }
+
+    buildTypes {
+        debug {
+            versionNameSuffix '-debug'
+        }
+
+        release {
+            debuggable false
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
     compileOptions {
